@@ -16,10 +16,10 @@ sealed class SnowBreakHttpClient : HttpClient
 
     static SnowBreakHttpClient()
     {
-        URL_GameClientPredownloadManifest = new Uri("https://snowbreak-dl.amazingseasuncdn.com/pre-release/PC/updates/");
-        URL_GameLauncherNews = new Uri("https://snowbreak-content.amazingseasuncdn.com/ob202307/webfile/launcher/launcher-information.json");
-        URL_LauncherLatestVersion = new Uri("https://snowbreak-content.amazingseasuncdn.com/ob202307/launcher/seasun/updates/latest");
-        URL_LauncherManifest = new Uri("https://leayal.github.io/SnowBreakLauncher-Dotnet/publish/v1/launcher-manifest.json");
+        URL_GameClientPredownloadManifest = new Uri("https://cbjq.xoyocdn.com/pre-release/PC/updates/");
+        URL_GameLauncherNews = new Uri("https://cbjq-content.xoyocdn.com/ob202307/webfile/launcher/launcher-information.json");
+        URL_LauncherLatestVersion = new Uri("https://cbjq-content.xoyocdn.com/ob202307/launcher/jinshan/updates/latest");
+        URL_LauncherManifest = new Uri("https://lemonpaka.github.io/SnowBreakLauncher-Dotnet-ChinaMainland/publish/v1/launcher-manifest.json");
         Instance = new SnowBreakHttpClient(new SocketsHttpHandler()
         {
             AllowAutoRedirect = true,
