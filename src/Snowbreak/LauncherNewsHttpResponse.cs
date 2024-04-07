@@ -37,12 +37,7 @@ public readonly struct LauncherNewsHttpResponse : IDisposable
         static bool TryGetProperty(JsonElement element, string name, out JsonElement property) => (element.TryGetProperty(name, out property) && property.ValueKind == JsonValueKind.Object);
 
         JsonElement prop_languageChannel;
-        if (TryGetProperty(element, "en_US", out prop_languageChannel))
-        {
-            channel = prop_languageChannel;
-            return true;
-        }
-        else if (TryGetProperty(element, "default", out prop_languageChannel))
+        if (TryGetProperty(element, "default", out prop_languageChannel))
         {
             channel = prop_languageChannel;
             return true;
