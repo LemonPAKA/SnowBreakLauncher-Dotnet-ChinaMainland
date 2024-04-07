@@ -414,7 +414,7 @@ sealed class GameProcessManager : IDisposable
             else throw new NotSupportedException();
 
             argList.Add("-FeatureLevelES31");
-            argList.Add("-ChannelID=seasun");
+            argList.Add("-ChannelID=jinshan");
 
             ReadOnlySpan<char> buffer = "-userdir=\"";
             argList.Add(string.Concat(buffer, mgr.FullPathOfGameDirectory, buffer.Slice(buffer.Length - 1)));
@@ -459,7 +459,7 @@ sealed class GameProcessManager : IDisposable
 
             // We will simply using assumed gclid value.
             // The official launcher's behavior is that if the "gclid" file doesn't exist, it will not populate this parameter at all.
-            if (!alreadyHasGclid) argList.Add("-gclid=Snow_Setup");
+            if (!alreadyHasGclid) argList.Add("-gclid=cbjq_Setup");
 
             proc.Start();
         }
