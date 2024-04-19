@@ -99,7 +99,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             var openFileOpts = new FilePickerOpenOptions()
             {
                 AllowMultiple = false,
-                Title = "Browse for existing game client",
+                Title = "选择已存在的游戏文件",
                 FileTypeFilter = new List<FilePickerFileType>(2)
                 {
                     new FilePickerFileType("Game Client File") { Patterns = new string[] { "manifest.json", "game.exe" } },
@@ -115,7 +115,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                 var path = results[0].TryGetLocalPath();
                 if (string.IsNullOrEmpty(path))
                 {
-                    await this.ShowInfoMsgBox("The file you selected is not a local file on your machine.", "Invalid item selected");
+                    await this.ShowInfoMsgBox("你选择的文件不在你本地系统中.", "Invalid item selected");
                     continue;
                 }
 
@@ -130,15 +130,15 @@ namespace Leayal.SnowBreakLauncher.Windows
 
                 if (string.IsNullOrEmpty(selectedInstallationDirectory))
                 {
-                    await this.ShowInfoMsgBox("The file you selected doesn't seem to be the expected SnowBreak game client file.", "Invalid item selected");
+                    await this.ShowInfoMsgBox("你选择的文件看起来并不是《尘白禁区》的游戏文件.", "Invalid item selected");
                     continue;
                 }
 
-                if ((await this.ShowYesNoMsgBox("Detected your game client:" + Environment.NewLine
+                if ((await this.ShowYesNoMsgBox("检测到你的游戏在:" + Environment.NewLine
                     + selectedInstallationDirectory + Environment.NewLine + Environment.NewLine
-                    + "Do you want to use this path?" + Environment.NewLine
-                    + "(The path above is not missing anything, it is where the 'manifest.json' file supposed to be)" + Environment.NewLine
-                    + "(If the path doesn't look like what you desired, please move the folder and select the relocated folder)", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                    + "你确定要选择这个路径吗?" + Environment.NewLine
+                    + "(这个路径应该是 'manifest.json' 文件本身应在的位置，并且没有缺失任何其他文件)" + Environment.NewLine
+                    + "(如果选择的路径不是你想要的路径，请把文件夹移动到其他地方再选择该文件夹)", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                 {
                     this._launcherConfig.GameClientInstallationPath = selectedInstallationDirectory;
                     await this.AfterLoaded_Btn_GameStart();
@@ -164,7 +164,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             catch { }
             Action StopIndetermined = () =>
             {
-                this.ProgressBar_Total.ProgressTextFormat = "File check and downloading ({1}%)";
+                this.ProgressBar_Total.ProgressTextFormat = "文件自检和下载 ({1}%)";
                 this.ProgressBar_Total.IsIndeterminate = false;
                 this.ProgressBar_Download1.IsIndeterminate = false;
                 this.ProgressBar_Download2.IsIndeterminate = false;
@@ -186,7 +186,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             this.ProgressBar_Total.IsIndeterminate = true;
             this.ProgressBar_Download1.IsIndeterminate = true;
             this.ProgressBar_Download2.IsIndeterminate = true;
-            this.ProgressBar_Total.ProgressTextFormat = "Downloading manifest from remote host";
+            this.ProgressBar_Total.ProgressTextFormat = "正在从远端下载文件";
             this.ProgressBar_Download1.ShowProgressText = false;
             this.ProgressBar_Download2.ShowProgressText = false;
             var uiUpdaterCancellation = DispatcherTimer.Run(() =>

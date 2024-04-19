@@ -60,7 +60,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             if (!OperatingSystem.IsWindows() && sender is ContextMenu ctxMenu)
             {
                 var linuxWineSettingsBtn = new MenuItem();
-                linuxWineSettingsBtn.Header = new TextBlock() { Text = "Wine Settings" };
+                linuxWineSettingsBtn.Header = new TextBlock() { Text = "Wine 设置" };
                 linuxWineSettingsBtn.Click += this.LinuxWineSettingsBtn_Click;
                 ctxMenu.Items.Add(linuxWineSettingsBtn);
             }
@@ -85,9 +85,9 @@ namespace Leayal.SnowBreakLauncher.Windows
                 }
                 lines.AddRange(new Avalonia.Controls.Documents.Run[]
                 {
-                    new Avalonia.Controls.Documents.Run("Launcher version: "),
-                    new Avalonia.Controls.Documents.Run(Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "Unknown version") { TextDecorations = Avalonia.Media.TextDecorations.Underline },
-                    new Avalonia.Controls.Documents.Run(" (Click to open releases page)"),
+                    new Avalonia.Controls.Documents.Run("启动器版本: "),
+                    new Avalonia.Controls.Documents.Run(Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "未知版本") { TextDecorations = Avalonia.Media.TextDecorations.Underline },
+                    new Avalonia.Controls.Documents.Run(" (点击打开原版国际版三方启动器发布页)"),
                 });
                 Clickable.OnClick(textBlock, LauncherVersionString_Clicked);
             }
@@ -236,7 +236,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                 // We send signal without user confirmation.
                                 this.cancelSrc_Root.Cancel();
                             }
-                            else if ((await this.ShowYesNoMsgBox("Game client is being updated. Are you sure you want to cancel updating and close the launcher?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                            else if ((await this.ShowYesNoMsgBox("游戏正在更新. 你确定要关闭启动器并且取消更新吗?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                             {
                                 // Send signal that the launcher should exit after complete the updating game client task.
                                 this.cancelSrc_Root.Cancel();
@@ -267,7 +267,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             // But it's still okay to re-show, too.
             if (this.cancelSrc_UpdateGameClient == null) return;
 
-            if ((await this.ShowYesNoMsgBox("Game client is being updated. Are you sure you want to cancel updating?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            if ((await this.ShowYesNoMsgBox("游戏正在更新. 你确定要取消更新吗?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
                 // Steal it so that in case the button is clicked multiple times "at once", only the first click will do cancellation.
                 var stolenCancelSrc = Interlocked.Exchange(ref this.cancelSrc_UpdateGameClient, null);
@@ -331,8 +331,8 @@ namespace Leayal.SnowBreakLauncher.Windows
 
             if (this.GameStartButtonState != GameStartButtonState.CanStartGame) return;
 
-            if ((await ShowYesNoMsgBox("Are you sure you want to begin file integrity check and download missing/damaged files?" + Environment.NewLine
-                + "(This action will take a short time or long time, depending on your disk's speed)", "Confirmation")) != MsBox.Avalonia.Enums.ButtonResult.Yes)
+            if ((await ShowYesNoMsgBox("是否开始检查文件完整性并下载缺失和损坏的文件?" + Environment.NewLine
+                + "(检查完整性可能会很快或者很慢, 取决于你的硬盘速度)", "Confirmation")) != MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
                 return;
             }
@@ -366,8 +366,8 @@ namespace Leayal.SnowBreakLauncher.Windows
                             installedDirectory = Path.GetFullPath(installedDirectory);
                             if (IsGameExisted(installedDirectory))
                             {
-                                if ((await ShowYesNoMsgBox("It seems like the configuration has changed." + Environment.NewLine
-                                    + "Do you want to use the path from the configuration file (see below)?" + Environment.NewLine + Environment.NewLine
+                                if ((await ShowYesNoMsgBox("配置文件似乎被修改了." + Environment.NewLine
+                                    + "是否要使用配置文件中的路径 (详情见下)?" + Environment.NewLine + Environment.NewLine
                                     + installedDirectory, "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                 {
                                     await this.AfterLoaded_Btn_GameStart();
@@ -376,10 +376,10 @@ namespace Leayal.SnowBreakLauncher.Windows
                             }
                         }
 
-                        var selection = await ShowYesNoCancelMsgBox("The launcher cannot find your game client. Please choose these options:" + Environment.NewLine + Environment.NewLine
-                                   + "- Yes: Select a folder to install the game to." + Environment.NewLine
-                                   + "- No: Browse for your existing game client." + Environment.NewLine
-                                   + "- Cancel: Abort and go back.", "Prompt");
+                        var selection = await ShowYesNoCancelMsgBox("启动器检测不到你的游戏. 请选择以下选项:" + Environment.NewLine + Environment.NewLine
+                                   + "- Yes: 选择你想要安装游戏的路径." + Environment.NewLine
+                                   + "- No: 选择已存在游戏文件的路径." + Environment.NewLine
+                                   + "- Cancel: 取消并返回.", "Prompt");
                         
                         if (selection == MsBox.Avalonia.Enums.ButtonResult.Yes)  // Browse for a folder, then install to the selected folder.
                         {
@@ -388,7 +388,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                 var folderPickOpts = new FolderPickerOpenOptions()
                                 {
                                     AllowMultiple = false,
-                                    Title = "Select a folder to install the game to"
+                                    Title = "选择你想要安装游戏的路径"
                                 };
 
                                 while (true)
@@ -399,22 +399,22 @@ namespace Leayal.SnowBreakLauncher.Windows
                                     var selectedPath = results[0].TryGetLocalPath();
                                     if (string.IsNullOrEmpty(selectedPath))
                                     {
-                                        await this.ShowInfoMsgBox("The path to the folder you selected is not a local path.", "Invalid item selected");
+                                        await this.ShowInfoMsgBox("选择的路径不是本地路径.", "Invalid item selected");
                                         continue;
                                     }
                                     
                                     if (!Directory.Exists(selectedPath))
                                     {
-                                        if ((await this.ShowYesNoMsgBox("The path you specified doesn't exist. Create destination folder?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.No)
+                                        if ((await this.ShowYesNoMsgBox("选择的路径不存在，是否创建文件夹?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.No)
                                             continue;
                                     }
 
                                     if (IsGameExisted(selectedPath))
                                     {
-                                        if ((await this.ShowYesNoMsgBox("Detected your game client:" + Environment.NewLine
+                                        if ((await this.ShowYesNoMsgBox("检测到你的游戏在:" + Environment.NewLine
                                             + selectedPath + Environment.NewLine + Environment.NewLine
-                                            + "Do you want to use this path?" + Environment.NewLine
-                                            + "(The path above is not missing anything, it is where the 'manifest.json' file supposed to be)", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                                            + "你确定要选择这个路径吗?" + Environment.NewLine
+                                            + "(这个路径应该是 'manifest.json' 文件本身应在的位置，并且没有缺失任何其他文件)", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                         {
                                             this._launcherConfig.GameClientInstallationPath = selectedPath;
                                             await this.AfterLoaded_Btn_GameStart();
@@ -422,9 +422,9 @@ namespace Leayal.SnowBreakLauncher.Windows
                                         }
                                     }
 
-                                    if ((await this.ShowYesNoMsgBox("Destination to install SnowBreak game client:" + Environment.NewLine
+                                    if ((await this.ShowYesNoMsgBox("《尘白禁区》游戏安装目的地:" + Environment.NewLine
                                            + selectedPath + Environment.NewLine + Environment.NewLine
-                                           + "Do you want to install the game to this destination?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                                           + "你确定你想要在这里安装游戏吗?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                     {
                                         selectedPath = Directory.CreateDirectory(selectedPath).FullName;
                                         this._launcherConfig.GameClientInstallationPath = selectedPath;
@@ -437,7 +437,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                             }
                             else
                             {
-                                await this.ShowInfoMsgBox("This action Your OS is not supported. Something went wrong!!!", "Error", MsBox.Avalonia.Enums.Icon.Error);
+                                await this.ShowInfoMsgBox("你的系统不支持这个操作. 未知错误!!!", "Error", MsBox.Avalonia.Enums.Icon.Error);
                             }
                         }
                         else if (selection == MsBox.Avalonia.Enums.ButtonResult.No) // Browse for existing game client
@@ -448,7 +448,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                             }
                             else
                             {
-                                await this.ShowInfoMsgBox("This action Your OS is not supported. Something went wrong!!!", "Error", MsBox.Avalonia.Enums.Icon.Error);
+                                await this.ShowInfoMsgBox("你的系统不支持这个操作. 未知错误!!!", "Error", MsBox.Avalonia.Enums.Icon.Error);
                             }
                         }
                     }
@@ -466,7 +466,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                 }
                                 else
                                 {
-                                    await ShowInfoMsgBox("The game is already running", "Game already running");
+                                    await ShowInfoMsgBox("游戏已经在运行了", "Game already running");
                                 }
                             }
                             else
@@ -477,7 +477,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                     this.GameStartButtonState = GameStartButtonState.CheckingForUpdates;
                                     if (await gameMgr.Updater.CheckForUpdatesAsync())
                                     {
-                                        if ((await ShowYesNoMsgBox("Your game client seems to be out-dated. Do you want to update it now?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                                        if ((await ShowYesNoMsgBox("游戏需要更新. 你想要现在更新吗?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                         {
                                             this.GameStartButtonState = GameStartButtonState.RequiresUpdate;
                                             this.Btn_StartGame_Click(source, args);

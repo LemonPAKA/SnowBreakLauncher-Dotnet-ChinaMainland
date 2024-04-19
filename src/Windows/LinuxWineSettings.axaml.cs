@@ -66,7 +66,7 @@ public partial class LinuxWineSettings : Window
             var openFileOpts = new FilePickerOpenOptions()
             {
                 AllowMultiple = false,
-                Title = "Browse for Wine executable file",
+                Title = "选择 Wine 的执行文件",
                 FileTypeFilter = new List<FilePickerFileType>(2)
                 {
                     new FilePickerFileType("Wine Executable File") { Patterns = new string[] { "wine" } },
@@ -79,12 +79,12 @@ public partial class LinuxWineSettings : Window
             var path = results[0].TryGetLocalPath();
             if (string.IsNullOrEmpty(path))
             {
-                await MainWindow.ShowInfoMsgBox(this, "The file you selected is not a local file on your machine.", "Invalid item selected");
+                await MainWindow.ShowInfoMsgBox(this, "你选择的文件不在你本地系统中.", "Invalid item selected");
                 return;
             }
             else if (string.IsNullOrWhiteSpace(path))
             {
-                await MainWindow.ShowInfoMsgBox(this, "The path you selected is invalid.", "Invalid item selected");
+                await MainWindow.ShowInfoMsgBox(this, "你选择的路径无效.", "Invalid item selected");
                 return;
             }
             this.TextBox_WinePath.Text = path;

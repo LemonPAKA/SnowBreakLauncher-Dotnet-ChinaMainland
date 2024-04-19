@@ -70,7 +70,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Checking for game client updates";
+                        window.BtnText_StartGame.Text = "正在检查游戏客户端更新";
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -78,7 +78,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = true;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Update game client";
+                        window.BtnText_StartGame.Text = "更新游戏客户端";
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -86,12 +86,12 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Updating game client";
+                        window.BtnText_StartGame.Text = "正在更新游戏客户端";
 
                         window.BtnGameStart_Page.SelectedIndex = 1;
                         break;
                     case GameStartButtonState.CanStartGame:
-                        window.BtnText_StartGame.Text = "Start game";
+                        window.BtnText_StartGame.Text = "开始游戏";
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
                         window.Btn_StartGame.IsEnabled = true;
@@ -102,7 +102,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Game is starting...";
+                        window.BtnText_StartGame.Text = "游戏正在启动...";
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -110,7 +110,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Game is running...";
+                        window.BtnText_StartGame.Text = "游戏正在运行...";
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -118,7 +118,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = true;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Install or select existing game files";
+                        window.BtnText_StartGame.Text = "安装或选择已存在的游戏文件";
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -126,7 +126,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Preparing";
+                        window.BtnText_StartGame.Text = "正在准备";
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -134,7 +134,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Loading launcher UI...";
+                        window.BtnText_StartGame.Text = "正在加载启动器界面...";
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;

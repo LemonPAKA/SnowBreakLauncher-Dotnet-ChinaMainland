@@ -111,8 +111,8 @@ namespace Leayal.SnowBreakLauncher.Windows
         }
 
         private Task ShowDialog_LetUserKnowGameDirectoryIsNotSetForThisFunction()
-            => this.ShowInfoMsgBox("It seems you haven't installed the game yet or the launcher doesn't know where it is." + Environment.NewLine
-                    + "Please install or select the game data location before performing this action.", "Information");
+            => this.ShowInfoMsgBox("游戏没有安装或者启动器不知道游戏所在位置." + Environment.NewLine
+                    + "请在执行此操作之前安装游戏或者选择游戏所在路径.", "Information");
 
         private Task<ButtonResult> ShowYesNoCancelMsgBox(string content, string title, Icon icon = MsBox.Avalonia.Enums.Icon.Question, SizeToContent sizeToContent = SizeToContent.WidthAndHeight)
         {
