@@ -87,7 +87,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                 {
                     new Avalonia.Controls.Documents.Run("启动器版本: "),
                     new Avalonia.Controls.Documents.Run(Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "未知版本") { TextDecorations = Avalonia.Media.TextDecorations.Underline },
-                    new Avalonia.Controls.Documents.Run(" (点击打开原版国际版三方启动器发布页)"),
+                    new Avalonia.Controls.Documents.Run(" (点击打开原版国际版三方启动器发布页，修改By 柠檬味雪碧)"),
                 });
                 Clickable.OnClick(textBlock, LauncherVersionString_Clicked);
             }
