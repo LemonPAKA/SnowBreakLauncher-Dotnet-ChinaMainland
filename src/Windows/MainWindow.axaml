@@ -8,7 +8,7 @@
 		MinWidth="400" MinHeight="441"
 		Width="400" Height="441" WindowStartupLocation="CenterScreen"
         x:Class="Leayal.SnowBreakLauncher.Windows.MainWindow"
-        Title="SnowBreak: Containment Zone Game Launcher">
+        Title="《尘白禁区》第三方启动器国服版——原作者Leayal">
 	<Grid ColumnDefinitions="*">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -24,10 +24,10 @@
 		</Grid>
 		<Grid Grid.Row="2" Margin="0">
 			<TabControl Padding="0" Margin="0">
-				<TabItem Header="Events">
+				<TabItem Header="活动">
 					<controls:LauncherNewsItemListView x:Name="LauncherNews_Events" NewsItemPressed="NewsItem_PointerPressed" />
 				</TabItem>
-				<TabItem Header="Notices">
+				<TabItem Header="公告">
 					<controls:LauncherNewsItemListView x:Name="LauncherNews_Notices" NewsItemPressed="NewsItem_PointerPressed" />
 				</TabItem>
 			</TabControl>
@@ -58,17 +58,17 @@
 						<ContextMenu Placement="TopEdgeAlignedRight" Initialized="ExtraContextMenu_Initialized">
 							<MenuItem Click="MenuItem_ChangeGameClientDirectory_Click">
 								<MenuItem.Header>
-									<TextBlock Text="Change Game Client Directory" />
+									<TextBlock Text="更改游戏路径" />
 								</MenuItem.Header>
 							</MenuItem>
 							<MenuItem Click="MenuItem_GameDataIntegrityCheck_Click">
 								<MenuItem.Header>
-									<TextBlock Text="Scan And Fix Missing Or Damaged Game Data" />
+									<TextBlock Text="检查并修复游戏文件" />
 								</MenuItem.Header>
 							</MenuItem>
 							<MenuItem Click="MenuItem_OpenGameDataDirectory_Click">
 								<MenuItem.Header>
-									<TextBlock Text="Open Game Data Directory" />
+									<TextBlock Text="打开游戏文件目录" />
 								</MenuItem.Header>
 							</MenuItem>
 						</ContextMenu>
