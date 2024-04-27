@@ -1,7 +1,8 @@
 {
-	"default": "https://cbjq.xoyocdn.com/DLC8/PC/updates/",
+	"default": "https://cbjq.xoyocdn.com/DLC9/PC/updates/",
 	"overrides": {
-		"1.7.0": "https://cbjq.xoyocdn.com/DLC7/PC/updates/",
-		"1.6.0": "https://cbjq.xoyocdn.com/DLC6/PC/updates/"
+		"1.7.0": "https://cbjq.xoyocdn.com/DLC8/PC/updates/",
+		"1.6.0": "https://cbjq.xoyocdn.com/DLC7/PC/updates/",
+		"1.5.0": "https://cbjq.xoyocdn.com/DLC6/PC/updates/"
 	}
 }
