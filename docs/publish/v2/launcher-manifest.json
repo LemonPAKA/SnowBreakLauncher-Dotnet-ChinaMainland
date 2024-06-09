@@ -1,9 +1,9 @@
 {
 	"domains": [
-		"https://cbjq.xoyocdn.com",
-		"https://cbjq-qq.xoyocdn.com",
-		"https://cbjq-bsy.xoyocdn.com",
-		"https://cbjq-hsyq.xoyocdn.com"
+		"cbjq.xoyocdn.com",
+		"cbjq-qq.xoyocdn.com",
+		"cbjq-bsy.xoyocdn.com",
+		"cbjq-hsyq.xoyocdn.com"
 	],
 	"default": "https://{0}/118c343979b2407f4a6b3ad2b84d6d79/PC/updates/",
 	"overrides": {
