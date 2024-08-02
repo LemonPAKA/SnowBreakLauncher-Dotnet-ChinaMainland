@@ -21,7 +21,7 @@ sealed class SnowBreakHttpClient : HttpClient
 {
     private const string TemplateURL_RemoteDataResource = "https://{0}/{1}/PC/updates/", // {0}, {1} was for string.Format method.
         TemplateURL_LauncherBaseUrl = "https://cbjq-content.xoyocdn.com/ob202307/",
-        TemplateURL_LauncherBinary = TemplateURL_LauncherBaseUrl + "/launcher/jinshan/updates/{0}.exe",
+        TemplateURL_LauncherBinary = TemplateURL_LauncherBaseUrl + "launcher/jinshan/updates/{0}.exe",
         
         Hardcoded_ScanSettings_StartString = "{\"appUpdateURL\":\"https://cbjq-content.xoyocdn.com/ob202307/launcher/jinshan/updates/\"",
         Hardcoded_ScanSettings_EndString = "}";
@@ -41,7 +41,7 @@ sealed class SnowBreakHttpClient : HttpClient
     {
         URL_GameClientPredownloadManifest = new Uri("https://cbjq.xoyocdn.com/pre-release/PC/updates/");
         URL_GameLauncherNews = new Uri($"{TemplateURL_LauncherBaseUrl}webfile/launcher/launcher-information.json");
-        URL_LauncherLatestVersion = new Uri($"{TemplateURL_LauncherBaseUrl}/launcher/jinshan/updates/latest");
+        URL_LauncherLatestVersion = new Uri($"{TemplateURL_LauncherBaseUrl}launcher/jinshan/updates/latest");
         URL_LauncherManifest = new Uri("https://lemonpaka.github.io/SnowBreakLauncher-Dotnet-ChinaMainland/publish/v2/launcher-manifest.json");
 
         // We put the config reading here so that the static class still follow .NET lazy static initialization mechanism.
