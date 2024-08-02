@@ -16,8 +16,8 @@ namespace Leayal.SnowBreakLauncher.Classes.Net.Dns
 {
     public class DoHClient : IDisposable
     {
-        public const string CloudflareURI = "https://dns.alidns.com/dns-query";
-        public const string GoogleURI = "https://doh.pub/dns-query";
+        public const string CloudflareURI = "https://cloudflare-dns.com/dns-query";
+        public const string GoogleURI = "https://dns.google/resolve";
         public bool UseRandomPadding = true;
         public bool RequireDNSSEC = true;
         public bool RequestNoGeolocation = true;
