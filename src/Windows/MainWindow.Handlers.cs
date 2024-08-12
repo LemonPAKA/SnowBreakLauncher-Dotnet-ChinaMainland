@@ -335,7 +335,14 @@ namespace Leayal.SnowBreakLauncher.Windows
                 return;
             }
 
-            if (this.GameStartButtonState != GameStartButtonState.CanStartGame) return;
+            switch (this.GameStartButtonState)
+            {
+                case GameStartButtonState.CanStartGame:
+                case GameStartButtonState.RequiresUpdate:
+                    break;
+                default:
+                    return;
+            }
 
             if ((await ShowYesNoMsgBox("是否开始检查文件完整性并下载缺失和损坏的文件?" + Environment.NewLine
                 + "(检查完整性可能会很快或者很慢, 取决于你的硬盘速度)", "Confirmation")) != MsBox.Avalonia.Enums.ButtonResult.Yes)
