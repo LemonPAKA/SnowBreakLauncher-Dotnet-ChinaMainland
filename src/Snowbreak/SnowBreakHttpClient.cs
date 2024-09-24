@@ -1,4 +1,5 @@
 ﻿using Leayal.SnowBreakLauncher.Classes;
+using Leayal.SnowBreakLauncher.LeaHelpers;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Buffers;
@@ -47,8 +48,8 @@ sealed class SnowBreakHttpClient : HttpClient
     static SnowBreakHttpClient()
     {
         URL_GameClientPredownloadManifest = new Uri("https://cbjq.xoyocdn.com/pre-release/PC/updates/");
-        URL_GameLauncherNews = new Uri($"{TemplateURL_LauncherBaseUrl}/webfile/launcher/launcher-information.json");
-        URL_LauncherLatestVersion = new Uri($"{TemplateURL_LauncherBaseUrl}/launcher/jinshan/updates/latest");
+        URL_GameLauncherNews = new Uri(UrlHelper.MakeAbsoluteUrl(TemplateURL_LauncherBaseUrl, "webfile/launcher/launcher-information.json", true));
+        URL_LauncherLatestVersion = new Uri(UrlHelper.MakeAbsoluteUrl(TemplateURL_LauncherBaseUrl, "launcher/jinshan/updates/latest", true));
         URL_LauncherManifest = new Uri("https://lemonpaka.github.io/SnowBreakLauncher-Dotnet-ChinaMainland/publish/v2/launcher-manifest.json");
 
         // We put the config reading here so that the static class still follow .NET lazy static initialization mechanism.
