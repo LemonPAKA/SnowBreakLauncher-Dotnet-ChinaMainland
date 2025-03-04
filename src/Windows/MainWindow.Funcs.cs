@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Leayal.SnowBreakLauncher.Classes;
+using Leayal.SnowBreakLauncher.I18n;
 using Leayal.SnowBreakLauncher.Snowbreak;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace Leayal.SnowBreakLauncher.Windows
     public partial class MainWindow
     {
         private readonly CancellationTokenSource cancelSrc_Root;
-        private readonly OfficialJsonConfiguration _launcherConfig;
+        private readonly OfficialJsonConfiguration _cnlauncherConfig;
+        private readonly OfficialJsonConfiguration _gblauncherConfig;
 
         private void OnGameManagerChanged(GameManager? oldOne, GameManager newOne)
         {
@@ -99,10 +101,10 @@ namespace Leayal.SnowBreakLauncher.Windows
             var openFileOpts = new FilePickerOpenOptions()
             {
                 AllowMultiple = false,
-                Title = "Browse for existing game client",
+                Title = LanguageHelpers.GetLanguageString("BrowseforExistingGameClient"),
                 FileTypeFilter = new List<FilePickerFileType>(2)
                 {
-                    new FilePickerFileType("Game Client File") { Patterns = new string[] { "manifest.json", "game.exe" } },
+                    new FilePickerFileType(LanguageHelpers.GetLanguageString("GameClientFile")) { Patterns = new string[] { "manifest.json", "game.exe" } },
                     FilePickerFileTypes.All
                 }
             };
@@ -115,7 +117,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                 var path = results[0].TryGetLocalPath();
                 if (string.IsNullOrEmpty(path))
                 {
-                    await this.ShowInfoMsgBox("The file you selected is not a local file on your machine.", "Invalid item selected");
+                    await this.ShowInfoMsgBox(LanguageHelpers.GetLanguageString("NotLocalFile"), LanguageHelpers.GetLanguageString("InvalidItemSelected"));
                     continue;
                 }
 
@@ -130,17 +132,24 @@ namespace Leayal.SnowBreakLauncher.Windows
 
                 if (string.IsNullOrEmpty(selectedInstallationDirectory))
                 {
-                    await this.ShowInfoMsgBox("The file you selected doesn't seem to be the expected SnowBreak game client file.", "Invalid item selected");
+                    await this.ShowInfoMsgBox(LanguageHelpers.GetLanguageString("NotSnowbreakGameFile"), LanguageHelpers.GetLanguageString("InvalidItemSelected"));
                     continue;
                 }
 
-                if ((await this.ShowYesNoMsgBox("Detected your game client:" + Environment.NewLine
+                if ((await this.ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("DetectedYourGameClient") + Environment.NewLine
                     + selectedInstallationDirectory + Environment.NewLine + Environment.NewLine
-                    + "Do you want to use this path?" + Environment.NewLine
-                    + "(The path above is not missing anything, it is where the 'manifest.json' file supposed to be)" + Environment.NewLine
-                    + "(If the path doesn't look like what you desired, please move the folder and select the relocated folder)", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                    + LanguageHelpers.GetLanguageString("DoYouWantToUseThisPath") + Environment.NewLine
+                    + LanguageHelpers.GetLanguageString("ManifestJsonExplain1") + Environment.NewLine
+                    + LanguageHelpers.GetLanguageString("ManifestJsonExplain2"), LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                 {
-                    this._launcherConfig.GameClientInstallationPath = selectedInstallationDirectory;
+                    if (GetGameServer().Equals("Global"))
+                    {
+                        this._gblauncherConfig.GameClientInstallationPath = selectedInstallationDirectory;
+                    }
+                    else
+                    {
+                        this._cnlauncherConfig.GameClientInstallationPath = selectedInstallationDirectory;
+                    }
                     await this.AfterLoaded_Btn_GameStart();
                     break;
                 }
@@ -164,7 +173,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             catch { }
             Action StopIndetermined = () =>
             {
-                this.ProgressBar_Total.ProgressTextFormat = "File check and downloading ({1}%)";
+                this.ProgressBar_Total.ProgressTextFormat = LanguageHelpers.GetLanguageString("FileDownloading") + " ({1}%)";
                 this.ProgressBar_Total.IsIndeterminate = false;
                 this.ProgressBar_Download1.IsIndeterminate = false;
                 this.ProgressBar_Download2.IsIndeterminate = false;
@@ -186,7 +195,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             this.ProgressBar_Total.IsIndeterminate = true;
             this.ProgressBar_Download1.IsIndeterminate = true;
             this.ProgressBar_Download2.IsIndeterminate = true;
-            this.ProgressBar_Total.ProgressTextFormat = "Downloading manifest from remote host";
+            this.ProgressBar_Total.ProgressTextFormat = LanguageHelpers.GetLanguageString("ManifestDownloading");
             this.ProgressBar_Download1.ShowProgressText = false;
             this.ProgressBar_Download2.ShowProgressText = false;
             var uiUpdaterCancellation = DispatcherTimer.Run(() =>
@@ -236,7 +245,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                     if (!string.Equals(oldFilename, newstate_Filename, StringComparison.Ordinal) || isInHPatchZ != newstate_IsInHPatchZ)
                     {
                         attachedprogressbar.Tag = new Tuple<string, bool>(newstate_Filename, newstate_IsInHPatchZ);
-                        attachedprogressbar.ProgressTextFormat = string.Concat(isInHPatchZ ? "Binary patching:" : "Downloading", Path.GetFileName(newstate_Filename.AsSpan()), " ({1}%)");
+                        attachedprogressbar.ProgressTextFormat = string.Concat(isInHPatchZ ? LanguageHelpers.GetLanguageString("BinaryPatching") : LanguageHelpers.GetLanguageString("Downloading"), Path.GetFileName(newstate_Filename.AsSpan()), " ({1}%)");
                     }
                     if (progress.IsDone)
                     {

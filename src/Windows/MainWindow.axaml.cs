@@ -8,6 +8,7 @@ using Avalonia.Media.Imaging;
 using Leayal.SnowBreakLauncher.Snowbreak;
 using Leayal.SnowBreakLauncher.Classes;
 using Leayal.SnowBreakLauncher.Controls;
+using Leayal.SnowBreakLauncher.I18n;
 using System;
 using Avalonia.Interactivity;
 using Avalonia.Input;
@@ -18,9 +19,10 @@ public partial class MainWindow : Window
 {
     private readonly CarouselAutoplay carouselAutoplay;
 
-    public MainWindow(OfficialJsonConfiguration launcherConfig)
+    public MainWindow(OfficialJsonConfiguration cn_launcherConfig, OfficialJsonConfiguration gb_launcherConfig)
     {
-        this._launcherConfig = launcherConfig;
+        this._cnlauncherConfig = cn_launcherConfig;
+        this._gblauncherConfig = gb_launcherConfig;
         this.cancelSrc_Root = new System.Threading.CancellationTokenSource();
         GameManager.GameLocationChanged += this.OnGameManagerChanged;
         InitializeComponent();
@@ -32,6 +34,7 @@ public partial class MainWindow : Window
         this.carouselAutoplay = new CarouselAutoplay(this.LauncherNews_Banners);
         this.LauncherNews_Banners.GetObservable(Carousel.SelectedIndexProperty).Subscribe(this.OnLauncherNews_Banners_IndexChanged, this.cancelSrc_Root.Token);
         this.LauncherNews_Banners.GetObservable(Carousel.ItemCountProperty).Subscribe(this.OnLauncherNews_Banners_ItemCountChanged, this.cancelSrc_Root.Token);
+        this.ServerSelector.Text = LanguageHelpers.GetLanguageString(GetGameServer());
     }
 
     #region "| LauncherNews_Banners Paging |"
@@ -70,7 +73,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Checking for game client updates";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("CheckingGameClientUpdate");
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -78,7 +81,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = true;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Update game client";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("UpdateGameClient");
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -86,12 +89,12 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Updating game client";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("UpdatingGameClient");
 
                         window.BtnGameStart_Page.SelectedIndex = 1;
                         break;
                     case GameStartButtonState.CanStartGame:
-                        window.BtnText_StartGame.Text = "Start game";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("StartGame");
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
                         window.Btn_StartGame.IsEnabled = true;
@@ -102,7 +105,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Game is starting...";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("StartingGame");
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -110,7 +113,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Game is running...";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("RunningGame");
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -118,7 +121,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = true;
                         window.ProgressBar_Main.IsIndeterminate = false;
                         window.ProgressBar_Main.IsVisible = false;
-                        window.BtnText_StartGame.Text = "Install or select existing game files";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("InstallorSelectGameFile");
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -126,7 +129,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Preparing";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("Preparing");
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;
@@ -134,7 +137,7 @@ public partial class MainWindow : Window
                         window.Btn_StartGame.IsEnabled = false;
                         window.ProgressBar_Main.IsIndeterminate = true;
                         window.ProgressBar_Main.IsVisible = true;
-                        window.BtnText_StartGame.Text = "Loading launcher UI...";
+                        window.BtnText_StartGame.Text = LanguageHelpers.GetLanguageString("LoadingLauncherUI");
 
                         window.BtnGameStart_Page.SelectedIndex = 0;
                         break;

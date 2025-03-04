@@ -12,18 +12,47 @@ using MsBox.Avalonia.Enums;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Leayal.SnowBreakLauncher.Snowbreak;
+using Leayal.SnowBreakLauncher.I18n;
 using Avalonia.Platform;
+using System.Globalization;
+using HarfBuzzSharp;
+using System.Collections.Generic;
 
 namespace Leayal.SnowBreakLauncher.Windows
 {
     public partial class MainWindow
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool SetGameServer(string? serverSelected)
+        {
+            if (Application.Current is App app)
+            {
+                var conf = app.LeaLauncherConfig;
+                conf.ServerSelect = serverSelected;
+                conf.Save();
+                return true;
+            }
+            return false;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static string GetGameServer()
+        {
+            string serverSelected = "Global";
+            if (Application.Current is App app)
+            {
+                serverSelected = app.LeaLauncherConfig.ServerSelect;
+            }
+            return serverSelected;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool TryGetAppConfig([NotNullWhen(true)] out OfficialJsonConfiguration? config)
         {
             if (Application.Current is App app)
             {
-                config = app.LauncherConfig;
+                if(GetGameServer().Equals("Global"))
+                    config = app.GB_LauncherConfig;
+                else
+                    config = app.CN_LauncherConfig;
                 return true;
             }
             config = null;
@@ -92,7 +121,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                 ButtonDefinitions = ButtonEnum.Ok,
                 CanResize = false,
                 ContentHeader = ex.Message,
-                ContentTitle = "Error",
+                ContentTitle = LanguageHelpers.GetLanguageString("Error"),
                 ContentMessage = ex.StackTrace,
                 EnterDefaultButton = ClickEnum.Ok,
                 EscDefaultButton = ClickEnum.Ok,
@@ -111,8 +140,8 @@ namespace Leayal.SnowBreakLauncher.Windows
         }
 
         private Task ShowDialog_LetUserKnowGameDirectoryIsNotSetForThisFunction()
-            => this.ShowInfoMsgBox("It seems you haven't installed the game yet or the launcher doesn't know where it is." + Environment.NewLine
-                    + "Please install or select the game data location before performing this action.", "Information");
+            => this.ShowInfoMsgBox(LanguageHelpers.GetLanguageString("LetUserKnowGameDirectoryIsNotSetForThisFunction1") + Environment.NewLine
+                    + LanguageHelpers.GetLanguageString("LetUserKnowGameDirectoryIsNotSetForThisFunction2"), LanguageHelpers.GetLanguageString("Information"));
 
         private Task<ButtonResult> ShowYesNoCancelMsgBox(string content, string title, Icon icon = MsBox.Avalonia.Enums.Icon.Question, SizeToContent sizeToContent = SizeToContent.WidthAndHeight)
         {

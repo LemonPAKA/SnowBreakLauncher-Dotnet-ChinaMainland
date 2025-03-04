@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.Runtime.Versioning;
 using System.Reflection;
 using Avalonia.Threading;
+using Leayal.SnowBreakLauncher.I18n;
 
 namespace Leayal.SnowBreakLauncher.Windows
 {
@@ -60,7 +61,7 @@ namespace Leayal.SnowBreakLauncher.Windows
             if (!OperatingSystem.IsWindows() && sender is ContextMenu ctxMenu)
             {
                 var linuxWineSettingsBtn = new MenuItem();
-                linuxWineSettingsBtn.Header = new TextBlock() { Text = "Wine Settings" };
+                linuxWineSettingsBtn.Header = new TextBlock() { Text = LanguageHelpers.GetLanguageString("WineSettingsTitle") };
                 linuxWineSettingsBtn.Click += this.LinuxWineSettingsBtn_Click;
                 ctxMenu.Items.Add(linuxWineSettingsBtn);
             }
@@ -85,9 +86,9 @@ namespace Leayal.SnowBreakLauncher.Windows
                 }
                 lines.AddRange(new Avalonia.Controls.Documents.Run[]
                 {
-                    new Avalonia.Controls.Documents.Run("Launcher version: "),
-                    new Avalonia.Controls.Documents.Run(Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "Unknown version") { TextDecorations = Avalonia.Media.TextDecorations.Underline },
-                    new Avalonia.Controls.Documents.Run(" (Click to open releases page)"),
+                    new Avalonia.Controls.Documents.Run(LanguageHelpers.GetLanguageString("LauncherVersion")),
+                    new Avalonia.Controls.Documents.Run(Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? LanguageHelpers.GetLanguageString("UnknownVersion")) { TextDecorations = Avalonia.Media.TextDecorations.Underline },
+                    new Avalonia.Controls.Documents.Run(LanguageHelpers.GetLanguageString("ReleasesPage")),
                 });
                 Clickable.OnClick(textBlock, LauncherVersionString_Clicked);
             }
@@ -181,7 +182,12 @@ namespace Leayal.SnowBreakLauncher.Windows
 
         private async Task AfterLoaded_Btn_GameStart()
         {
-            var installedDirectory = this._launcherConfig.GameClientInstallationPath;
+            string? serverSelected = GetGameServer();
+            var installedDirectory = this._gblauncherConfig.GameClientInstallationPath ;
+            if(!serverSelected.Equals("Global"))
+            {
+                installedDirectory = this._cnlauncherConfig.GameClientInstallationPath;
+            }
             if (string.IsNullOrEmpty(installedDirectory) || !IsGameExisted(Path.GetFullPath(installedDirectory)))
             {
                 // Game isn't installed or not detected
@@ -236,7 +242,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                 // We send signal without user confirmation.
                                 this.cancelSrc_Root.Cancel();
                             }
-                            else if ((await this.ShowYesNoMsgBox("Game client is being updated. Are you sure you want to cancel updating and close the launcher?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                            else if ((await this.ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("CloseLauncherWhenUpdating"), LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                             {
                                 // Send signal that the launcher should exit after complete the updating game client task.
                                 this.cancelSrc_Root.Cancel();
@@ -255,7 +261,8 @@ namespace Leayal.SnowBreakLauncher.Windows
                 instance.Process.ProcessStarted -= this.GameManager_Process_Started;
                 instance.Process.ProcessExited -= this.GameManager_Process_Exited;
             }
-            this._launcherConfig.Dispose();
+            this._gblauncherConfig.Dispose();
+            this._cnlauncherConfig.Dispose();
             this.carouselAutoplay.Dispose();
             this.cancelSrc_Root?.Dispose();
             base.OnClosed(e);
@@ -267,11 +274,59 @@ namespace Leayal.SnowBreakLauncher.Windows
             // But it's still okay to re-show, too.
             if (this.cancelSrc_UpdateGameClient == null) return;
 
-            if ((await this.ShowYesNoMsgBox("Game client is being updated. Are you sure you want to cancel updating?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            if ((await this.ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("CancelUpdate"), LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
                 // Steal it so that in case the button is clicked multiple times "at once", only the first click will do cancellation.
                 var stolenCancelSrc = Interlocked.Exchange(ref this.cancelSrc_UpdateGameClient, null);
                 stolenCancelSrc?.Cancel();
+            }
+        }
+        public void BtnServer_Click(object source, RoutedEventArgs args)
+        {
+            var btn = (source as Button) ?? (args.Source as Button);
+            if (btn == null) return;
+            if (btn.ContextMenu is ContextMenu ctxMenu) ctxMenu.Open(btn);
+        }
+        public async void MenuItem_Jinshan_Click(object source, RoutedEventArgs args)
+        {
+            await ServerSwitch("Jinshan");
+        }
+        public async void MenuItem_Bilibili_Click(object source, RoutedEventArgs args)
+        {
+            await ServerSwitch("Bilibili");
+        }
+        public async void MenuItem_Global_Click(object source, RoutedEventArgs args)
+        {
+            await ServerSwitch("Global");
+        }
+        public async Task ServerSwitch(string serverName)
+        {
+            try
+            {
+                string currentServer = GetGameServer();
+
+                if (!currentServer.Equals(serverName))
+                {
+                    SnowBreakHttpClient.Instance.ClientServer = serverName;
+                    SetGameServer(serverName);
+
+                    // 如果当前服务器是 Global，切换到 Jinshan 或 Bilibili 时需要调用 AfterLoaded_Btn_GameStart
+                    if (currentServer.Equals("Global"))
+                    {
+                        await AfterLoaded_Btn_GameStart();
+                    }
+                    // 如果切换到 Global 服务器时也需要调用
+                    else if (serverName.Equals("Global"))
+                    {
+                        await AfterLoaded_Btn_GameStart();
+                    }
+                }
+
+                ServerSelector.Text = LanguageHelpers.GetLanguageString(serverName);
+            }
+            catch (Exception ex)
+            {
+                await MainWindow.ShowErrorMsgBox(this, ex);
             }
         }
 
@@ -344,8 +399,8 @@ namespace Leayal.SnowBreakLauncher.Windows
                     return;
             }
 
-            if ((await ShowYesNoMsgBox("Are you sure you want to begin file integrity check and download missing/damaged files?" + Environment.NewLine
-                + "(This action will take a short time or long time, depending on your disk's speed)", "Confirmation")) != MsBox.Avalonia.Enums.ButtonResult.Yes)
+            if ((await ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("VerifyGameIntegrityConfirm") + Environment.NewLine
+                + LanguageHelpers.GetLanguageString("VerifyGameIntegrityExplain"), LanguageHelpers.GetLanguageString("Confirmation"))) != MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
                 return;
             }
@@ -368,20 +423,25 @@ namespace Leayal.SnowBreakLauncher.Windows
         public async void Btn_StartGame_Click(object source, RoutedEventArgs args)
         {
             var localvar_btnGameStartState = this.GameStartButtonState; // can access field "this._gameStartButtonState" directly for performance;
+            string? serverSelected = GetGameServer();
             switch (localvar_btnGameStartState)
             {
                 case GameStartButtonState.NeedInstall:
                     // GameManager.Instance should be null here.
                     {
-                        var installedDirectory = this._launcherConfig.GameClientInstallationPath;
+                        var installedDirectory = this._gblauncherConfig.GameClientInstallationPath;
+                        if (!serverSelected.Equals("Global"))
+                        {
+                            installedDirectory = this._cnlauncherConfig.GameClientInstallationPath;
+                        }
                         if (!string.IsNullOrEmpty(installedDirectory))
                         {
                             installedDirectory = Path.GetFullPath(installedDirectory);
                             if (IsGameExisted(installedDirectory))
                             {
-                                if ((await ShowYesNoMsgBox("It seems like the configuration has changed." + Environment.NewLine
-                                    + "Do you want to use the path from the configuration file (see below)?" + Environment.NewLine + Environment.NewLine
-                                    + installedDirectory, "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                                if ((await ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("StartGameLocationCheck1") + Environment.NewLine
+                                    + LanguageHelpers.GetLanguageString("StartGameLocationCheck2") + Environment.NewLine + Environment.NewLine
+                                    + installedDirectory, LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                 {
                                     await this.AfterLoaded_Btn_GameStart();
                                     return;
@@ -389,10 +449,10 @@ namespace Leayal.SnowBreakLauncher.Windows
                             }
                         }
 
-                        var selection = await ShowYesNoCancelMsgBox("The launcher cannot find your game client. Please choose these options:" + Environment.NewLine + Environment.NewLine
-                                   + "- Yes: Select a folder to install the game to." + Environment.NewLine
-                                   + "- No: Browse for your existing game client." + Environment.NewLine
-                                   + "- Cancel: Abort and go back.", "Prompt");
+                        var selection = await ShowYesNoCancelMsgBox(LanguageHelpers.GetLanguageString("InstallGame") + Environment.NewLine + Environment.NewLine
+                                   + LanguageHelpers.GetLanguageString("InstallGameYes") + Environment.NewLine
+                                   + LanguageHelpers.GetLanguageString("InstallGameNo") + Environment.NewLine
+                                   + LanguageHelpers.GetLanguageString("InstallGameCancel"), LanguageHelpers.GetLanguageString("Prompt"));
                         
                         if (selection == MsBox.Avalonia.Enums.ButtonResult.Yes)  // Browse for a folder, then install to the selected folder.
                         {
@@ -401,7 +461,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                 var folderPickOpts = new FolderPickerOpenOptions()
                                 {
                                     AllowMultiple = false,
-                                    Title = "Select a folder to install the game to"
+                                    Title = LanguageHelpers.GetLanguageString("SelectInstallPath1")
                                 };
 
                                 while (true)
@@ -412,35 +472,49 @@ namespace Leayal.SnowBreakLauncher.Windows
                                     var selectedPath = results[0].TryGetLocalPath();
                                     if (string.IsNullOrEmpty(selectedPath))
                                     {
-                                        await this.ShowInfoMsgBox("The path to the folder you selected is not a local path.", "Invalid item selected");
+                                        await this.ShowInfoMsgBox(LanguageHelpers.GetLanguageString("SelectInstallPath2"), LanguageHelpers.GetLanguageString("InvalidItemSelected"));
                                         continue;
                                     }
                                     
                                     if (!Directory.Exists(selectedPath))
                                     {
-                                        if ((await this.ShowYesNoMsgBox("The path you specified doesn't exist. Create destination folder?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.No)
+                                        if ((await this.ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("SelectInstallPath3"), LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.No)
                                             continue;
                                     }
 
                                     if (IsGameExisted(selectedPath))
                                     {
-                                        if ((await this.ShowYesNoMsgBox("Detected your game client:" + Environment.NewLine
+                                        if ((await this.ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("SelectInstallPath4") + Environment.NewLine
                                             + selectedPath + Environment.NewLine + Environment.NewLine
-                                            + "Do you want to use this path?" + Environment.NewLine
-                                            + "(The path above is not missing anything, it is where the 'manifest.json' file supposed to be)", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                                            + LanguageHelpers.GetLanguageString("SelectInstallPath5") + Environment.NewLine
+                                            + LanguageHelpers.GetLanguageString("SelectInstallPath6"), LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                         {
-                                            this._launcherConfig.GameClientInstallationPath = selectedPath;
+                                            if (serverSelected.Equals("Global"))
+                                            {
+                                                this._gblauncherConfig.GameClientInstallationPath = selectedPath;
+                                            }
+                                            else
+                                            {
+                                                this._cnlauncherConfig.GameClientInstallationPath = selectedPath;
+                                            }
                                             await this.AfterLoaded_Btn_GameStart();
                                             break;
                                         }
                                     }
 
-                                    if ((await this.ShowYesNoMsgBox("Destination to install SnowBreak game client:" + Environment.NewLine
+                                    if ((await this.ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("SelectInstallPath7") + Environment.NewLine
                                            + selectedPath + Environment.NewLine + Environment.NewLine
-                                           + "Do you want to install the game to this destination?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                                           + LanguageHelpers.GetLanguageString("SelectInstallPath8"), LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                     {
                                         selectedPath = Directory.CreateDirectory(selectedPath).FullName;
-                                        this._launcherConfig.GameClientInstallationPath = selectedPath;
+                                        if (serverSelected.Equals("Global"))
+                                        {
+                                            this._gblauncherConfig.GameClientInstallationPath = selectedPath;
+                                        }
+                                        else
+                                        {
+                                            this._cnlauncherConfig.GameClientInstallationPath = selectedPath;
+                                        }
                                         GameManager.SetGameDirectory(selectedPath);
                                         this.GameStartButtonState = GameStartButtonState.RequiresUpdate;
                                         this.Btn_StartGame_Click(source, args);
@@ -450,7 +524,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                             }
                             else
                             {
-                                await this.ShowInfoMsgBox("This action Your OS is not supported. Something went wrong!!!", "Error", MsBox.Avalonia.Enums.Icon.Error);
+                                await this.ShowInfoMsgBox(LanguageHelpers.GetLanguageString("OSnotSupport"), LanguageHelpers.GetLanguageString("Error"), MsBox.Avalonia.Enums.Icon.Error);
                             }
                         }
                         else if (selection == MsBox.Avalonia.Enums.ButtonResult.No) // Browse for existing game client
@@ -461,7 +535,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                             }
                             else
                             {
-                                await this.ShowInfoMsgBox("This action Your OS is not supported. Something went wrong!!!", "Error", MsBox.Avalonia.Enums.Icon.Error);
+                                await this.ShowInfoMsgBox(LanguageHelpers.GetLanguageString("OSnotSupport"), LanguageHelpers.GetLanguageString("Error"), MsBox.Avalonia.Enums.Icon.Error);
                             }
                         }
                     }
@@ -479,7 +553,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                 }
                                 else
                                 {
-                                    await ShowInfoMsgBox("The game is already running", "Game already running");
+                                    await ShowInfoMsgBox(LanguageHelpers.GetLanguageString("GameAlreadyRunning1"), LanguageHelpers.GetLanguageString("GameAlreadyRunning2"));
                                 }
                             }
                             else
@@ -490,7 +564,7 @@ namespace Leayal.SnowBreakLauncher.Windows
                                     this.GameStartButtonState = GameStartButtonState.CheckingForUpdates;
                                     if (await gameMgr.Updater.CheckForUpdatesAsync())
                                     {
-                                        if ((await ShowYesNoMsgBox("Your game client seems to be out-dated. Do you want to update it now?", "Confirmation")) == MsBox.Avalonia.Enums.ButtonResult.Yes)
+                                        if ((await ShowYesNoMsgBox(LanguageHelpers.GetLanguageString("GameNeedUpdate"), LanguageHelpers.GetLanguageString("Confirmation"))) == MsBox.Avalonia.Enums.ButtonResult.Yes)
                                         {
                                             this.GameStartButtonState = GameStartButtonState.RequiresUpdate;
                                             this.Btn_StartGame_Click(source, args);
@@ -502,6 +576,11 @@ namespace Leayal.SnowBreakLauncher.Windows
                                     }
                                     else
                                     {
+                                        var installedDirectory = (serverSelected.Equals("Global")) ? this._gblauncherConfig.GameClientInstallationPath : this._cnlauncherConfig.GameClientInstallationPath;
+                                        using (CensorshipSetting fs = new CensorshipSetting(installedDirectory))
+                                        {
+                                            fs.VerifyCensorship();
+                                        }
                                         this.GameStartButtonState = GameStartButtonState.StartingGame;
                                         try
                                         {

@@ -1,5 +1,6 @@
 ﻿using Leayal.SnowBreakLauncher.Classes;
 using Leayal.SnowBreakLauncher.LeaHelpers;
+using Leayal.SnowBreakLauncher.I18n;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.Buffers;
@@ -34,8 +35,15 @@ sealed class SnowBreakHttpClient : HttpClient
         Hardcoded_ScanSettings_StartString = "{\"appUpdateURL\":\"https://snowbreak-content.amazingseasuncdn.com/ob202307/launcher/seasun/updates/\"",
         Hardcoded_ScanSettings_EndString = "}";
 
-    
+    private const string TemplateURL_LauncherBaseUrl_CN = "https://cbjq-content.xoyocdn.com/ob202307",
+        TemplateURL_LauncherBinary_CN = TemplateURL_LauncherBaseUrl_CN + "/launcher/jinshan/updates/{0}.exe",
+
+        Hardcoded_ScanSettings_StartString_CN = "{\"appUpdateURL\":\"https://cbjq-content.xoyocdn.com/ob202307/launcher/jinshan/updates/\"",
+        Hardcoded_ScanSettings_EndString_CN = "}";
+
+
     private static readonly Uri URL_GameClientPredownloadManifest, URL_GameLauncherNews, URL_LauncherLatestVersion, URL_LauncherManifest;
+    private static readonly Uri URL_GameClientPredownloadManifest_CN, URL_GameLauncherNews_CN, URL_LauncherLatestVersion_CN, URL_LauncherManifest_CN;
     public static readonly SnowBreakHttpClient Instance;
     private static readonly string[] TemplateURL_RemoteResourceDomainNames =
     {
@@ -43,20 +51,34 @@ sealed class SnowBreakHttpClient : HttpClient
         "snowbreak-dl-cy.amazingseasuncdn.com",
         "snowbreak-dl-akm.amazingseasuncdn.com"
     };
+    private static readonly string[] TemplateURL_RemoteResourceDomainNames_CN =
+{
+        "cbjq.xoyocdn.com",
+        "cbjq-qq.xoyocdn.com",
+        "cbjq-bsy.xoyocdn.com",
+        "cbjq-hsyq.xoyocdn.com"
+    };
 
     static SnowBreakHttpClient()
     {
         URL_GameClientPredownloadManifest = new Uri("https://snowbreak-dl.amazingseasuncdn.com/pre-release/PC/updates/");
         URL_GameLauncherNews = new Uri(UrlHelper.MakeAbsoluteUrl(TemplateURL_LauncherBaseUrl, "webfile/launcher/launcher-information.json", true));
         URL_LauncherLatestVersion = new Uri(UrlHelper.MakeAbsoluteUrl(TemplateURL_LauncherBaseUrl, "launcher/seasun/updates/latest", true));
-        URL_LauncherManifest = new Uri("https://leayal.github.io/SnowBreakLauncher-Dotnet/publish/v2/launcher-manifest.json");
+        URL_LauncherManifest = new Uri("https://lemonpaka.github.io/SnowBreakLauncher-Dotnet-ChinaMainland/publish/v2/launcher-manifest-GB.json");
+        //CN group
+        URL_GameClientPredownloadManifest_CN = new Uri("https://cbjq.xoyocdn.com/pre-release/PC/updates/");
+        URL_GameLauncherNews_CN = new Uri(UrlHelper.MakeAbsoluteUrl(TemplateURL_LauncherBaseUrl_CN, "webfile/launcher/launcher-information.json", true));
+        URL_LauncherLatestVersion_CN = new Uri(UrlHelper.MakeAbsoluteUrl(TemplateURL_LauncherBaseUrl_CN, "launcher/jinshan/updates/latest", true));
+        URL_LauncherManifest_CN = new Uri("https://lemonpaka.github.io/SnowBreakLauncher-Dotnet-ChinaMainland/publish/v2/launcher-manifest-CN.json");
 
         // We put the config reading here so that the static class still follow .NET lazy static initialization mechanism.
         var useDoH = true;
+        var serverSelected = "Global";
         string? proxyUrl = null;
         if (App.Current is App app)
         {
             useDoH = app.LeaLauncherConfig.Networking_UseDoH;
+            serverSelected = app.LeaLauncherConfig.ServerSelect;
             proxyUrl = app.proxyUrl;
         }
 
@@ -71,7 +93,9 @@ sealed class SnowBreakHttpClient : HttpClient
             UseCookies = true,
         })
         {
-            EnableDnsOverHttps = useDoH
+            EnableDnsOverHttps = useDoH,
+            ClientServer = serverSelected,
+            DnsOverHttpsIsGlobal = serverSelected.Equals("Global")
         };
         Instance.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36");
         AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
@@ -91,6 +115,20 @@ sealed class SnowBreakHttpClient : HttpClient
         get => this.doHHandler.IsEnabled;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => this.doHHandler.IsEnabled = value;
+    }
+    public bool DnsOverHttpsIsGlobal
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => this.doHHandler.IsGlobal;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => this.doHHandler.IsGlobal = value;
+    }
+
+    public string ClientServer {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set;
     }
 
     private SnowBreakHttpClient(SocketsHttpHandler handler) : this(new HttpClientSecureDnsResolver(handler), true)
@@ -115,14 +153,30 @@ sealed class SnowBreakHttpClient : HttpClient
         var t_launcherLatestVersion = this.GetGameLauncherLatestVersionAsync(cancellationToken);
 
         string thislauncherManifestData;
-        using (var req = new HttpRequestMessage(HttpMethod.Get, URL_LauncherManifest))
+        if (ClientServer.Equals("Global"))
         {
-            req.Headers.Host = URL_LauncherManifest.Host;
-            using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+            using (var req = new HttpRequestMessage(HttpMethod.Get, URL_LauncherManifest))
             {
-                response.EnsureSuccessStatusCode();
+                req.Headers.Host = URL_LauncherManifest.Host;
+                using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
 
-                thislauncherManifestData = await response.Content.ReadAsStringAsync(cancellationToken);
+                    thislauncherManifestData = await response.Content.ReadAsStringAsync(cancellationToken);
+                }
+            }
+        }
+        else
+        {
+            using (var req = new HttpRequestMessage(HttpMethod.Get, URL_LauncherManifest_CN))
+            {
+                req.Headers.Host = URL_LauncherManifest_CN.Host;
+                using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    thislauncherManifestData = await response.Content.ReadAsStringAsync(cancellationToken);
+                }
             }
         }
 
@@ -130,11 +184,11 @@ sealed class SnowBreakHttpClient : HttpClient
 
         if (!allowOfficialFetchingFromLauncher)
         {
-            OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, null, launcherLatestVersion, out _, out var resourceSrc, null, null, cancellationToken);
+            OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, null, launcherLatestVersion, out _, out var resourceSrc, null, null, cancellationToken, ClientServer);
             return resourceSrc;
         }
 
-        string scannerSettings_start = Hardcoded_ScanSettings_StartString,
+        string scannerSettings_start = ClientServer.Equals("Global")? Hardcoded_ScanSettings_StartString: Hardcoded_ScanSettings_StartString_CN,
             scannerSettings_end = Hardcoded_ScanSettings_EndString;
         using (var scanSettingParser = JsonDocument.Parse(thislauncherManifestData, GetDefaultJsonDocumentReaderSettings()))
         {
@@ -160,8 +214,9 @@ sealed class SnowBreakHttpClient : HttpClient
         }
 
         var path_cacheDir = Path.GetFullPath("cacheData", AppContext.BaseDirectory);
-        var path_launcherManifestCachedData = Path.Join(path_cacheDir, "officiallaunchermanifest-latest.json");
-
+        var path_launcherManifestCachedData_GB = Path.Join(path_cacheDir, "gb-officiallaunchermanifest-latest.json");
+        var path_launcherManifestCachedData_CN = Path.Join(path_cacheDir, "cn-officiallaunchermanifest-latest.json");
+        var path_launcherManifestCachedData = ClientServer.Equals("Global") ? path_launcherManifestCachedData_GB : path_launcherManifestCachedData_CN;
         bool isOkay = false;
         if (File.Exists(path_launcherManifestCachedData))
         {
@@ -172,7 +227,7 @@ sealed class SnowBreakHttpClient : HttpClient
                 {
                     using (var jsonDoc = JsonDocument.Parse(cachedOfficialLauncherManifestData, GetDefaultJsonDocumentReaderSettings()))
                     {
-                        if (OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, jsonDoc, launcherLatestVersion, out _, out var resourceSrc, null, null, cancellationToken))
+                        if (OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, jsonDoc, launcherLatestVersion, out _, out var resourceSrc, null, null, cancellationToken, ClientServer))
                         {
                             return resourceSrc;
                         }
@@ -188,7 +243,7 @@ sealed class SnowBreakHttpClient : HttpClient
         {
             _ = Directory.CreateDirectory(path_cacheDir);
 
-            var url = new Uri(string.Format(TemplateURL_LauncherBinary, launcherLatestVersion));
+            var url = new Uri(string.Format(ClientServer.Equals("Global")?TemplateURL_LauncherBinary:TemplateURL_LauncherBinary_CN, launcherLatestVersion));
 
             using (var req = new HttpRequestMessage(HttpMethod.Get, url))
             {
@@ -431,21 +486,21 @@ sealed class SnowBreakHttpClient : HttpClient
         {
             // In case we still can't find manifest from the official launcher.
             // Fall-back to reading the data from the .json file which exists on the repo.
-            OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, null, launcherLatestVersion, out _, out var resourceSrc, path_launcherManifestCachedData, null, cancellationToken);
+            OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, null, launcherLatestVersion, out _, out var resourceSrc, path_launcherManifestCachedData, null, cancellationToken, ClientServer);
             return resourceSrc;
         }
         else
         {
             using (var jsonDoc = JsonDocument.Parse(officialJsonDataRaw, GetDefaultJsonDocumentReaderSettings()))
             {
-                OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, jsonDoc, launcherLatestVersion, out var task_writeCache, out var resourceSrc, path_launcherManifestCachedData, officialJsonDataRaw, cancellationToken);
+                OfficialLauncherManifestJsonParseAndMerge(thislauncherManifestData, jsonDoc, launcherLatestVersion, out var task_writeCache, out var resourceSrc, path_launcherManifestCachedData, officialJsonDataRaw, cancellationToken, ClientServer);
                 if (task_writeCache != null) await task_writeCache;
                 return resourceSrc;
             }
         }
     }
 
-    private static bool OfficialLauncherManifestJsonParseAndMerge(string thislauncherManifestData, JsonDocument? jsonDoc, string launcherLatestVersion, out Task? writeCache, out Uri[] resourceUris, string? path_launcherManifestCachedData, string? jsonDataRaw, CancellationToken cancellationToken)
+    private static bool OfficialLauncherManifestJsonParseAndMerge(string thislauncherManifestData, JsonDocument? jsonDoc, string launcherLatestVersion, out Task? writeCache, out Uri[] resourceUris, string? path_launcherManifestCachedData, string? jsonDataRaw, CancellationToken cancellationToken, string? ClientServer)
     {
         string strTemplate_RemoteDataResource;
         string[]? domainNames = null;
@@ -556,7 +611,12 @@ sealed class SnowBreakHttpClient : HttpClient
             }
             if (domainNames == null)
             {
-                domainNames = TemplateURL_RemoteResourceDomainNames;
+                if (ClientServer.Equals("Global"))
+                {
+                    domainNames = TemplateURL_RemoteResourceDomainNames;
+                }
+                else
+                    domainNames = TemplateURL_RemoteResourceDomainNames_CN;
             }
 
             Uri[]? resourceSrc = null;
@@ -685,7 +745,7 @@ sealed class SnowBreakHttpClient : HttpClient
     }
 
     public Task<GameClientManifestData> GetGamePredownloadManifestAsync(CancellationToken cancellationToken = default)
-        => this.Inner_GetGameClientManifestAsync(URL_GameClientPredownloadManifest, cancellationToken);
+        => this.Inner_GetGameClientManifestAsync(ClientServer.Equals("Global") ? URL_GameClientPredownloadManifest: URL_GameClientPredownloadManifest_CN, cancellationToken);
 
     private async Task<GameClientManifestData> Inner_GetGameClientManifestAsync(Uri uri_base, CancellationToken cancellationToken = default)
     {
@@ -706,16 +766,34 @@ sealed class SnowBreakHttpClient : HttpClient
 
     private async Task<string> GetGameLauncherLatestVersionAsync(CancellationToken cancellationToken = default)
     {
-        using (var req = new HttpRequestMessage(HttpMethod.Get, URL_LauncherLatestVersion))
+        if (ClientServer.Equals("Global"))
         {
-            req.Headers.Host = URL_LauncherLatestVersion.Host;
-            using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+            using (var req = new HttpRequestMessage(HttpMethod.Get,URL_LauncherLatestVersion))
             {
-                response.EnsureSuccessStatusCode();
-                var result = await response.Content.ReadAsStringAsync(cancellationToken);
-                var trimmedLen = result.AsSpan().Trim().Length;
-                if (trimmedLen == result.Length) return result;
-                return result.Trim();
+                req.Headers.Host = URL_LauncherLatestVersion.Host;
+                using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var result = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var trimmedLen = result.AsSpan().Trim().Length;
+                    if (trimmedLen == result.Length) return result;
+                    return result.Trim();
+                }
+            }
+        }
+        else
+        {
+            using (var req = new HttpRequestMessage(HttpMethod.Get, URL_LauncherLatestVersion_CN))
+            {
+                req.Headers.Host = URL_LauncherLatestVersion_CN.Host;
+                using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var result = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var trimmedLen = result.AsSpan().Trim().Length;
+                    if (trimmedLen == result.Length) return result;
+                    return result.Trim();
+                }
             }
         }
     }
@@ -749,15 +827,32 @@ sealed class SnowBreakHttpClient : HttpClient
 
     public async Task<LauncherNewsHttpResponse> GetLauncherNewsAsync(CancellationToken cancellationToken = default)
     {
-        using (var req = new HttpRequestMessage(HttpMethod.Get, URL_GameLauncherNews))
+        if (!LanguageHelpers.GetCurrentLanguageCode().Equals("zh-CN"))
         {
-            req.Headers.Host = URL_GameLauncherNews.Host;
-            using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+            using (var req = new HttpRequestMessage(HttpMethod.Get, URL_GameLauncherNews))
             {
-                response.EnsureSuccessStatusCode();
+                req.Headers.Host = URL_GameLauncherNews.Host;
+                using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
 
-                var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                return new LauncherNewsHttpResponse(jsonContent);
+                    var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                    return new LauncherNewsHttpResponse(jsonContent);
+                }
+            }
+        }
+        else
+        {
+            using (var req = new HttpRequestMessage(HttpMethod.Get, URL_GameLauncherNews_CN))
+            {
+                req.Headers.Host = URL_GameLauncherNews_CN.Host;
+                using (var response = await this.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                    return new LauncherNewsHttpResponse(jsonContent);
+                }
             }
         }
     }

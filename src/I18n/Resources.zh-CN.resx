@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="LauncherTitle" xml:space="preserve">
+    <value>《尘白禁区》一站式启动器</value>
+  </data>
+  <data name="LauncherNewsEvents" xml:space="preserve">
+    <value>活动</value>
+  </data>
+  <data name="LauncherNewsNotices" xml:space="preserve">
+    <value>公告</value>
+  </data>
+  <data name="LauncherUILoading" xml:space="preserve">
+    <value>正在加载启动器界面</value>
+  </data>
+  <data name="GamePreDownLoad" xml:space="preserve">
+    <value>☁</value>
+  </data>
+  <data name="GamePreDownLoadToolTip" xml:space="preserve">
+    <value>预下载更新</value>
+  </data>
+  <data name="GameServerSelector" xml:space="preserve">
+    <value>服务器选择</value>
+  </data>
+  <data name="Jinshan" xml:space="preserve">
+    <value>官服</value>
+  </data>
+  <data name="Bilibili" xml:space="preserve">
+    <value>B服</value>
+  </data>
+  <data name="Global" xml:space="preserve">
+    <value>国际服</value>
+  </data>
+  <data name="LauncherSettingsMenu" xml:space="preserve">
+    <value>⚙</value>
+  </data>
+  <data name="LauncherSettingsMenuToolTip" xml:space="preserve">
+    <value>启动器设置</value>
+  </data>
+  <data name="LauncherSettings" xml:space="preserve">
+    <value>更改启动器设置</value>
+  </data>
+  <data name="ChangeGameClientDirectory" xml:space="preserve">
+    <value>更改游戏路径</value>
+  </data>
+  <data name="VerifyGameIntegrity" xml:space="preserve">
+    <value>检查并修复游戏文件</value>
+  </data>
+  <data name="OpenGameDataDirectory" xml:space="preserve">
+    <value>打开游戏文件目录</value>
+  </data>
+  <data name="UpdateingGame" xml:space="preserve">
+    <value>正在从服务器下载游戏资源</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="LauncherSettingsTitle" xml:space="preserve">
+    <value>启动器设置</value>
+  </data>
+  <data name="EnableStreamerMode" xml:space="preserve">
+    <value>开启主播模式</value>
+  </data>
+  <data name="EnableStreamerModeToolTip" xml:space="preserve">
+    <value>开启和谐模式</value>
+  </data>
+  <data name="UseSecureDNSResolver" xml:space="preserve">
+    <value>使用安全的DNS解析（Cloudflare DNS over HTTPS）</value>
+  </data>
+  <data name="UseSecureDNSResolverToolTip" xml:space="preserve">
+    <value>使用安全DNS协议将域名解析为IP地址（DOH）。安全DNS服务器提供商是Cloudflare（指定为 1.1.1.1）</value>
+  </data>
+  <data name="UseManifestFromOfficialLauncher" xml:space="preserve">
+    <value>允许从官方启动器获取游戏文件清单</value>
+  </data>
+  <data name="UseManifestFromOfficialLauncherToopTip" xml:space="preserve">
+    <value>允许此启动器从官方启动器获取游戏文件清单数据 (此数据用于定位游戏客户端的文件). 可能会导致启动器下载不完整</value>
+  </data>
+  <data name="UsingMemoryInsteadOfDisk" xml:space="preserve">
+    <value>允许使用内存代替硬盘</value>
+  </data>
+  <data name="UsingMemoryInsteadOfDiskToolTip" xml:space="preserve">
+    <value>允许启动器将官方启动器部分下载到内存而不是硬盘</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="WineSettingsTitle" xml:space="preserve">
+    <value>Wine 设置</value>
+  </data>
+  <data name="Winelocation" xml:space="preserve">
+    <value>Wine 路径</value>
+  </data>
+  <data name="WinelocationToolTip" xml:space="preserve">
+    <value>Wine 可执行文件的路径。可以为空路径以自动检测系统安装的 Wine</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>浏览</value>
+  </data>
+  <data name="UseUnixfilename" xml:space="preserve">
+    <value>使用 Unix 文件名</value>
+  </data>
+  <data name="UseUnixfilenameToolTip" xml:space="preserve">
+    <value>简而言之，这类似于模拟 Windows 操作系统的文件资源管理器的行为。直接使用文件资源管理器启动游戏</value>
+  </data>
+  <data name="BrowseforExistingGameClient" xml:space="preserve">
+    <value>查找已安装的游戏客户端</value>
+  </data>
+  <data name="GameClientFile" xml:space="preserve">
+    <value>游戏客户端文件</value>
+  </data>
+  <data name="NotLocalFile" xml:space="preserve">
+    <value>您选择的文件不是您计算机上的本地文件</value>
+  </data>
+  <data name="InvalidItemSelected" xml:space="preserve">
+    <value>选择的项目无效</value>
+  </data>
+  <data name="NotSnowbreakGameFile" xml:space="preserve">
+    <value>您选择的文件似乎不是 《尘白禁区》的游戏客户端文件</value>
+  </data>
+  <data name="DetectedYourGameClient" xml:space="preserve">
+    <value>检测到您的游戏在</value>
+  </data>
+  <data name="DoYouWantToUseThisPath" xml:space="preserve">
+    <value>您确定要选择这个路径吗？</value>
+  </data>
+  <data name="ManifestJsonExplain1" xml:space="preserve">
+    <value>(这个路径应该是 'manifest.json' 文件本身应在的位置，并且没有缺失任何其他文件)</value>
+  </data>
+  <data name="ManifestJsonExplain2" xml:space="preserve">
+    <value>(如果选择的路径不是你想要的路径，请把文件夹移动到其他地方再选择该文件夹)</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="FileDownloading" xml:space="preserve">
+    <value>文件自检和下载</value>
+  </data>
+  <data name="ManifestDownloading" xml:space="preserve">
+    <value>正在从服务器下载文件</value>
+  </data>
+  <data name="BinaryPatching" xml:space="preserve">
+    <value>正在修补文件</value>
+  </data>
+  <data name="LauncherVersion" xml:space="preserve">
+    <value>启动器版本: </value>
+  </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>正在下载</value>
+  </data>
+  <data name="UnknownVersion" xml:space="preserve">
+    <value>未知版本</value>
+  </data>
+  <data name="ReleasesPage" xml:space="preserve">
+    <value>（点击打开Leayal原版启动器发布页，修改By 柠檬味雪碧）</value>
+  </data>
+  <data name="CloseLauncherWhenUpdating" xml:space="preserve">
+    <value>游戏正在更新. 你确定要关闭启动器并且取消更新吗？</value>
+  </data>
+  <data name="CancelUpdate" xml:space="preserve">
+    <value>游戏正在更新. 你确定要取消更新吗？</value>
+  </data>
+  <data name="VerifyGameIntegrityConfirm" xml:space="preserve">
+    <value>是否开始检查文件完整性并下载缺失或损坏的文件？</value>
+  </data>
+  <data name="VerifyGameIntegrityExplain" xml:space="preserve">
+    <value>(检查完整性可能会很快或者很慢, 取决于你的硬盘速度)</value>
+  </data>
+  <data name="StartGameLocationCheck1" xml:space="preserve">
+    <value>配置文件似乎被修改了。</value>
+  </data>
+  <data name="StartGameLocationCheck2" xml:space="preserve">
+    <value>是否要使用配置文件中的路径 (详情见下)？</value>
+  </data>
+  <data name="InstallGame" xml:space="preserve">
+    <value>启动器检测不到你的游戏. 请选择以下选项：</value>
+  </data>
+  <data name="InstallGameYes" xml:space="preserve">
+    <value>- Yes: 选择你想要安装游戏的路径。</value>
+  </data>
+  <data name="InstallGameNo" xml:space="preserve">
+    <value>- No: 选择已存在游戏文件的路径。</value>
+  </data>
+  <data name="InstallGameCancel" xml:space="preserve">
+    <value>- Cancel: 取消并返回。</value>
+  </data>
+  <data name="Prompt" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="SelectInstallPath1" xml:space="preserve">
+    <value>选择你想要安装游戏的路径</value>
+  </data>
+  <data name="SelectInstallPath2" xml:space="preserve">
+    <value>选择的路径不是本地路径。</value>
+  </data>
+  <data name="SelectInstallPath3" xml:space="preserve">
+    <value>选择的路径不存在，是否创建文件夹？</value>
+  </data>
+  <data name="SelectInstallPath4" xml:space="preserve">
+    <value>检测到你的游戏在：</value>
+  </data>
+  <data name="SelectInstallPath5" xml:space="preserve">
+    <value>你确定要选择这个路径吗？</value>
+  </data>
+  <data name="SelectInstallPath6" xml:space="preserve">
+    <value>(这个路径应该是 'manifest.json' 文件本身应在的位置，并且没有缺失任何其他文件)</value>
+  </data>
+  <data name="SelectInstallPath7" xml:space="preserve">
+    <value>《尘白禁区》游戏安装目的地：</value>
+  </data>
+  <data name="SelectInstallPath8" xml:space="preserve">
+    <value>你确定你想要在这里安装游戏吗？</value>
+  </data>
+  <data name="OSnotSupport" xml:space="preserve">
+    <value>你的系统不支持这个操作. 未知错误！！！</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="GameAlreadyRunning1" xml:space="preserve">
+    <value>游戏已经在运行了</value>
+  </data>
+  <data name="GameAlreadyRunning2" xml:space="preserve">
+    <value>游戏正在运行</value>
+  </data>
+  <data name="GameNeedUpdate" xml:space="preserve">
+    <value>游戏需要更新. 你想要现在更新吗？</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="LetUserKnowGameDirectoryIsNotSetForThisFunction1" xml:space="preserve">
+    <value>游戏没有安装或者启动器不知道游戏所在位置。</value>
+  </data>
+  <data name="LetUserKnowGameDirectoryIsNotSetForThisFunction2" xml:space="preserve">
+    <value>请在执行此操作之前安装游戏或者选择游戏所在路径。</value>
+  </data>
+  <data name="LanguageChanged" xml:space="preserve">
+    <value>您需要手动重启应用以更改语言。</value>
+  </data>
+  <data name="CheckingGameClientUpdate" xml:space="preserve">
+    <value>正在检查游戏客户端更新</value>
+  </data>
+  <data name="UpdateGameClient" xml:space="preserve">
+    <value>更新游戏客户端</value>
+  </data>
+  <data name="UpdatingGameClient" xml:space="preserve">
+    <value>正在更新游戏客户端</value>
+  </data>
+  <data name="StartGame" xml:space="preserve">
+    <value>开始游戏</value>
+  </data>
+  <data name="StartingGame" xml:space="preserve">
+    <value>游戏正在启动...</value>
+  </data>
+  <data name="RunningGame" xml:space="preserve">
+    <value>游戏正在运行...</value>
+  </data>
+  <data name="InstallorSelectGameFile" xml:space="preserve">
+    <value>安装或选择已存在的游戏文件</value>
+  </data>
+  <data name="Preparing" xml:space="preserve">
+    <value>正在准备</value>
+  </data>
+  <data name="LoadingLauncherUI" xml:space="preserve">
+    <value>正在加载启动器界面...</value>
+  </data>
+</root>

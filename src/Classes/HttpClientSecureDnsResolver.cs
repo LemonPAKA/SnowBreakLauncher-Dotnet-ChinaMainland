@@ -14,6 +14,7 @@ namespace Leayal.SnowBreakLauncher.Classes
     {
         private readonly DoHClient dnsClient;
         private int state_isEnabled;
+        private bool state_isGlobal;
 
         public bool IsEnabled
         {
@@ -21,6 +22,13 @@ namespace Leayal.SnowBreakLauncher.Classes
             get => (Interlocked.CompareExchange(ref this.state_isEnabled, -1, -1) > 0);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => Interlocked.Exchange(ref this.state_isEnabled, value ? 1 : 0);
+        }
+        public bool IsGlobal
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => state_isGlobal;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set => state_isGlobal = value;
         }
 
         public HttpClientSecureDnsResolver(SocketsHttpHandler handler) : base(handler) 
@@ -32,6 +40,7 @@ namespace Leayal.SnowBreakLauncher.Classes
             };
             handler.ConnectCallback += this.HttpClient_HandleConnect;
             this.IsEnabled = true;
+            this.IsGlobal = true;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -113,6 +122,8 @@ namespace Leayal.SnowBreakLauncher.Classes
 
         private async ValueTask<Stream> HttpClient_HandleConnect(SocketsHttpConnectionContext ctx, CancellationToken cancelToken)
         {
+            if(!this.IsGlobal)
+                this.dnsClient.SetEndpoints(new[] { "https://dns.alidns.com/dns-query", "https://doh.pub/dns-query" });
             if (!this.IsEnabled)
                 return await DefaultHandle_HandleConnect(ctx.DnsEndPoint, cancelToken);
 

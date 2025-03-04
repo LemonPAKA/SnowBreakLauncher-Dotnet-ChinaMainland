@@ -16,6 +16,8 @@ namespace Leayal.SnowBreakLauncher.Classes
 #pragma warning disable CA1416 // Validate platform compatibility
             this.WinePath = string.Empty;
 #pragma warning restore CA1416 // Validate platform compatibility
+            this.LauncherLanguage = "en-US";
+#pragma warning restore CA1416 // Validate platform compatibility
             this.Reload();
         }
 
@@ -47,6 +49,12 @@ namespace Leayal.SnowBreakLauncher.Classes
         /// Update may purge files which is no longer in the new manifest's file list.
         /// </summary>
         public bool ClientData_EnsureCleanWhenFixing { get; set; }
+
+        public string ServerSelect { get; set; }
+
+        public bool StreamerMode { get; set; }
+
+        public string LauncherLanguage { get; set; }
 
 #pragma warning disable CA1416 // Validate platform compatibility
 
@@ -111,6 +119,30 @@ namespace Leayal.SnowBreakLauncher.Classes
                     {
                         this.AllowFetchingOfficialLauncherManifestDataInMemory = false;
                     }
+                    if (rootEle.TryGetProperty("serverSelect", out var prop_serverSelect) && prop_serverSelect.ValueKind == JsonValueKind.String)
+                    {
+                        this.ServerSelect = prop_serverSelect.GetString() ?? string.Empty;
+                    }
+                    else
+                    {
+                        this.ServerSelect = "Global";
+                    }
+                    if (rootEle.TryGetProperty("streamerMode", out var prop_streamerMode))
+                    {
+                        this.StreamerMode = ToBool(in prop_streamerMode, true);
+                    }
+                    else
+                    {
+                        this.StreamerMode = true;
+                    }
+                    if (rootEle.TryGetProperty("launcherLanguage", out var prop_launcherLanguage) && prop_launcherLanguage.ValueKind == JsonValueKind.String)
+                    {
+                        this.LauncherLanguage = prop_launcherLanguage.GetString() ?? string.Empty;
+                    }
+                    else
+                    {
+                        this.LauncherLanguage = "en-US";
+                    }
                 }
             }
             catch (JsonException)
@@ -119,6 +151,10 @@ namespace Leayal.SnowBreakLauncher.Classes
                 this.WineUseUnixFileSystem = true;
                 this.Networking_UseDoH = true;
                 this.ClientData_EnsureCleanWhenFixing = true;
+                this.AllowFetchingOfficialLauncherManifestData = true;
+                this.ServerSelect = "Global";
+                this.StreamerMode = true;
+                this.LauncherLanguage = "en-US";
             }
         }
 
@@ -152,6 +188,18 @@ namespace Leayal.SnowBreakLauncher.Classes
                 if (this.AllowFetchingOfficialLauncherManifestDataInMemory)
                 {
                     jsonWriter.WriteBoolean("allowFetchingOfficialLauncherManifestDataInMemory", true);
+                }
+                if (!string.IsNullOrWhiteSpace(this.ServerSelect))
+                {
+                    jsonWriter.WriteString("serverSelect", this.ServerSelect);
+                }
+                if (!this.StreamerMode)
+                {
+                    jsonWriter.WriteBoolean("streamerMode", false);
+                }
+                if (!string.IsNullOrWhiteSpace(this.LauncherLanguage))
+                {
+                    jsonWriter.WriteString("launcherLanguage", this.LauncherLanguage);
                 }
                 jsonWriter.WriteEndObject();
                 jsonWriter.Flush();

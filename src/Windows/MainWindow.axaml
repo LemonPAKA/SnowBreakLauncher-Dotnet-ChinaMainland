@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="using:Leayal.SnowBreakLauncher.Controls"
+		xmlns:language="clr-namespace:Leayal.SnowBreakLauncher.I18n"
         mc:Ignorable="d" x:Name="Myself"
 		MinWidth="400" MinHeight="441"
-		Width="400" Height="441" WindowStartupLocation="CenterScreen"
+		Width="500" Height="441" WindowStartupLocation="CenterScreen"
         x:Class="Leayal.SnowBreakLauncher.Windows.MainWindow"
-        Title="SnowBreak: Containment Zone Game Launcher">
+        Title="{x:Static language:Resources.LauncherTitle}">
 	<Grid ColumnDefinitions="*">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -24,10 +25,10 @@
 		</Grid>
 		<Grid Grid.Row="2" Margin="0">
 			<TabControl Padding="0" Margin="0">
-				<TabItem Header="Events">
+				<TabItem Header="{x:Static language:Resources.LauncherNewsEvents}">
 					<controls:LauncherNewsItemListView x:Name="LauncherNews_Events" NewsItemPressed="NewsItem_PointerPressed" />
 				</TabItem>
-				<TabItem Header="Notices">
+				<TabItem Header="{x:Static language:Resources.LauncherNewsNotices}">
 					<controls:LauncherNewsItemListView x:Name="LauncherNews_Notices" NewsItemPressed="NewsItem_PointerPressed" />
 				</TabItem>
 			</TabControl>
@@ -35,50 +36,74 @@
 				<Run x:Name="TB_LauncherNews_Banners_PagingCurrent"/><Run Text="/"/><Run x:Name="TB_LauncherNews_Banners_PagingCount"/>
 			</TextBlock>
 		</Grid>
-		<Carousel x:Name="BtnGameStart_Page" Grid.Row="3" Margin="2" MinHeight="50" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Carousel x:Name="BtnGameStart_Page" Grid.Row="4" Margin="2" MinHeight="50" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<!-- For main UI -->
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 				<ProgressBar Grid.ColumnSpan="2" CornerRadius="5" Padding="0" Margin="0" x:Name="ProgressBar_Main" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" />
 				<Button Margin="0" Padding="0" x:Name="Btn_StartGame" Click="Btn_StartGame_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
 						CornerRadius="5,0,0,5">
-					<TextBlock Padding="0" Margin="0" Name="BtnText_StartGame" Text="Loading launcher UI..." VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center" IsHitTestVisible="False" />
+					<TextBlock Padding="0" Margin="0" Name="BtnText_StartGame" Text="{x:Static language:Resources.LauncherUILoading}" VerticalAlignment="Center" HorizontalAlignment="Stretch" TextAlignment="Center" IsHitTestVisible="False" />
 				</Button>
 				<Button Grid.Column="1" Margin="0" Padding="0" x:Name="Btn_Predownload" Click="Btn_StartGame_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-						IsEnabled="{Binding #Btn_StartGame.IsEnabled}" IsVisible="False" ToolTip.Tip="Pre-download updates" Width="50">
-					<TextBlock Text="☁" FontSize="20" TextAlignment="Center" IsHitTestVisible="False" />
+						IsEnabled="{Binding #Btn_StartGame.IsEnabled}" IsVisible="False" ToolTip.Tip="{x:Static language:Resources.GamePreDownLoadToolTip}" Width="50">
+					<TextBlock Text="{x:Static language:Resources.GamePreDownLoad}" FontSize="20" TextAlignment="Center" IsHitTestVisible="False" />
 				</Button>
-				<Button Grid.Column="2" Margin="0" Padding="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="0,5,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-									x:Name="BtnSettings" Click="BtnSettings_Click" IsEnabled="{Binding #Btn_StartGame.IsEnabled}" ToolTip.Tip="Launcher settings" Width="50">
+				<Button Grid.Column="2" Margin="0" Padding="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="0,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+					x:Name="BtnServerSelector" Click="BtnServer_Click" IsEnabled="{Binding #Btn_StartGame.IsEnabled}" ToolTip.Tip="{x:Static language:Resources.GameServerSelector}" Width="100">
 					<Button.ContextMenu>
-						<ContextMenu Placement="TopEdgeAlignedRight" Initialized="ExtraContextMenu_Initialized">
-							<MenuItem Click="MenuItem_LauncherSettings_Click">
+						<ContextMenu Placement="TopEdgeAlignedRight">
+							<MenuItem Click="MenuItem_Jinshan_Click">
 								<MenuItem.Header>
-									<TextBlock Text="Change Launcher Settings" />
+									<TextBlock Text="{x:Static language:Resources.Jinshan}" />
 								</MenuItem.Header>
 							</MenuItem>
-							<MenuItem Click="MenuItem_ChangeGameClientDirectory_Click">
+							<MenuItem Click="MenuItem_Bilibili_Click">
 								<MenuItem.Header>
-									<TextBlock Text="Change Game Client Directory" />
+									<TextBlock Text="{x:Static language:Resources.Bilibili}" />
 								</MenuItem.Header>
 							</MenuItem>
-							<MenuItem Click="MenuItem_GameDataIntegrityCheck_Click">
+							<MenuItem Click="MenuItem_Global_Click">
 								<MenuItem.Header>
-									<TextBlock Text="Scan And Fix Missing Or Damaged Game Data" />
-								</MenuItem.Header>
-							</MenuItem>
-							<MenuItem Click="MenuItem_OpenGameDataDirectory_Click">
-								<MenuItem.Header>
-									<TextBlock Text="Open Game Data Directory" />
+									<TextBlock Text="{x:Static language:Resources.Global}" />
 								</MenuItem.Header>
 							</MenuItem>
 						</ContextMenu>
 					</Button.ContextMenu>
-					<TextBlock Text="⚙" FontSize="20" TextAlignment="Center" IsHitTestVisible="False" />
+					<TextBlock Text="Server" FontSize="20" TextAlignment="Center" IsHitTestVisible="False" x:Name="ServerSelector"/>
+				</Button>
+				<Button Grid.Column="3" Margin="0" Padding="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="0,5,5,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+									x:Name="BtnSettings" Click="BtnSettings_Click" IsEnabled="{Binding #Btn_StartGame.IsEnabled}" ToolTip.Tip="{x:Static language:Resources.LauncherSettingsMenuToolTip}" Width="50">
+					<Button.ContextMenu>
+						<ContextMenu Placement="TopEdgeAlignedRight" Initialized="ExtraContextMenu_Initialized">
+							<MenuItem Click="MenuItem_LauncherSettings_Click">
+								<MenuItem.Header>
+									<TextBlock Text="{x:Static language:Resources.LauncherSettings}" />
+								</MenuItem.Header>
+							</MenuItem>
+							<MenuItem Click="MenuItem_ChangeGameClientDirectory_Click">
+								<MenuItem.Header>
+									<TextBlock Text="{x:Static language:Resources.ChangeGameClientDirectory}" />
+								</MenuItem.Header>
+							</MenuItem>
+							<MenuItem Click="MenuItem_GameDataIntegrityCheck_Click">
+								<MenuItem.Header>
+									<TextBlock Text="{x:Static language:Resources.VerifyGameIntegrity}" />
+								</MenuItem.Header>
+							</MenuItem>
+							<MenuItem Click="MenuItem_OpenGameDataDirectory_Click">
+								<MenuItem.Header>
+									<TextBlock Text="{x:Static language:Resources.OpenGameDataDirectory}" />
+								</MenuItem.Header>
+							</MenuItem>
+						</ContextMenu>
+					</Button.ContextMenu>
+					<TextBlock Text="{x:Static language:Resources.LauncherSettingsMenu}" FontSize="20" TextAlignment="Center" IsHitTestVisible="False" />
 				</Button>
 			</Grid>
 
@@ -91,7 +116,7 @@
 
 				<Button Grid.ColumnSpan="2" Grid.Row="2" Padding="0" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
 						Click="Btn_UpdateCancel_Click">
-					<TextBlock Text="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" IsHitTestVisible="False" />
+					<TextBlock Text="{x:Static language:Resources.Cancel}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" IsHitTestVisible="False" />
 				</Button>
 			</Grid>
 		</Carousel>

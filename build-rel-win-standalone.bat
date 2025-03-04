@@ -23,3 +23,5 @@ REM As of writing this script, select .NET7 because CsWin32 doesn't generate com
 dotnet.exe publish -r win-x64 -f net8.0-windows -c Release -o "release\windows\standalone" "src\SnowBreakLauncher.csproj" 
 
 ENDLOCAL
+
+Pause

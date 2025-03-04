@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="LauncherTitle" xml:space="preserve">
+    <value>SnowBreak: Containment Zone Game Launcher</value>
+  </data>
+  <data name="LauncherNewsEvents" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="LauncherNewsNotices" xml:space="preserve">
+    <value>Notices</value>
+  </data>
+  <data name="LauncherUILoading" xml:space="preserve">
+    <value>Loading launcher UI</value>
+  </data>
+  <data name="GamePreDownLoad" xml:space="preserve">
+    <value>☁</value>
+  </data>
+  <data name="GamePreDownLoadToolTip" xml:space="preserve">
+    <value>Pre-download updates</value>
+  </data>
+  <data name="GameServerSelector" xml:space="preserve">
+    <value>Server Selector</value>
+  </data>
+  <data name="Jinshan" xml:space="preserve">
+    <value>Jinshan</value>
+  </data>
+  <data name="Bilibili" xml:space="preserve">
+    <value>Bilibili</value>
+  </data>
+  <data name="Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="LauncherSettingsMenu" xml:space="preserve">
+    <value>⚙</value>
+  </data>
+  <data name="LauncherSettingsMenuToolTip" xml:space="preserve">
+    <value>Launcher settings</value>
+  </data>
+  <data name="LauncherSettings" xml:space="preserve">
+    <value>Change Launcher Settings</value>
+  </data>
+  <data name="ChangeGameClientDirectory" xml:space="preserve">
+    <value>Change Game Client Directory</value>
+  </data>
+  <data name="VerifyGameIntegrity" xml:space="preserve">
+    <value>Scan And Fix Missing Or Damaged Game Data</value>
+  </data>
+  <data name="OpenGameDataDirectory" xml:space="preserve">
+    <value>Open Game Data Directory</value>
+  </data>
+  <data name="UpdateingGame" xml:space="preserve">
+    <value>Downloading manifest from remote host</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LauncherSettingsTitle" xml:space="preserve">
+    <value>Launcher Settings</value>
+  </data>
+  <data name="EnableStreamerMode" xml:space="preserve">
+    <value>Enable Streamer Mode</value>
+  </data>
+  <data name="EnableStreamerModeToolTip" xml:space="preserve">
+    <value>Enable Censorship</value>
+  </data>
+  <data name="UseSecureDNSResolver" xml:space="preserve">
+    <value>Use secure DNS Resolver (Cloudflare DNS over HTTPS)</value>
+  </data>
+  <data name="UseSecureDNSResolverToolTip" xml:space="preserve">
+    <value>Use secure DNS Resolver (Cloudflare DNS over HTTPS)" ToolTip.Tip="Use secure DNS protocol to resolve domain names into IP addresses (specifically, DNS over HTTPS). Secure DNS server provider is Cloudflare (specifically, 1.1.1.1)</value>
+  </data>
+  <data name="UseManifestFromOfficialLauncher" xml:space="preserve">
+    <value>Allow fetching manifest data from official launcher</value>
+  </data>
+  <data name="UseManifestFromOfficialLauncherToopTip" xml:space="preserve">
+    <value>Allow this launcher to fetch the resource manifest data (this data is used to locate the game client's files) from official launcher. This may result in partial launcher downloads</value>
+  </data>
+  <data name="UsingMemoryInsteadOfDisk" xml:space="preserve">
+    <value>Allow using memory space instead of disk</value>
+  </data>
+  <data name="UsingMemoryInsteadOfDiskToolTip" xml:space="preserve">
+    <value>Allow launcher to partially download official launcher into memory instead of into disks</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="WineSettingsTitle" xml:space="preserve">
+    <value>Wine Settings</value>
+  </data>
+  <data name="Winelocation" xml:space="preserve">
+    <value>Wine location</value>
+  </data>
+  <data name="WinelocationToolTip" xml:space="preserve">
+    <value>The path to wine executable. Can be empty path to auto-detect system-installed wine</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="UseUnixfilename" xml:space="preserve">
+    <value>Use a Unix filename</value>
+  </data>
+  <data name="UseUnixfilenameToolTip" xml:space="preserve">
+    <value>In the nutshell, this is similar to emulate the behavior of File Explorer of Windows operating system. Launch the game directly using File Explorer</value>
+  </data>
+  <data name="BrowseforExistingGameClient" xml:space="preserve">
+    <value>Browse for existing game client</value>
+  </data>
+  <data name="GameClientFile" xml:space="preserve">
+    <value>Game Client File</value>
+  </data>
+  <data name="NotLocalFile" xml:space="preserve">
+    <value>The file you selected is not a local file on your machine</value>
+  </data>
+  <data name="InvalidItemSelected" xml:space="preserve">
+    <value>Invalid item selected</value>
+  </data>
+  <data name="NotSnowbreakGameFile" xml:space="preserve">
+    <value>The file you selected doesn't seem to be the expected SnowBreak game client file</value>
+  </data>
+  <data name="DetectedYourGameClient" xml:space="preserve">
+    <value>Detected your game client</value>
+  </data>
+  <data name="DoYouWantToUseThisPath" xml:space="preserve">
+    <value>Do you want to use this path?</value>
+  </data>
+  <data name="ManifestJsonExplain1" xml:space="preserve">
+    <value>(The path above is not missing anything, it is where the 'manifest.json' file supposed to be)</value>
+  </data>
+  <data name="ManifestJsonExplain2" xml:space="preserve">
+    <value>(If the path doesn't look like what you desired, please move the folder and select the relocated folder)</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="FileDownloading" xml:space="preserve">
+    <value>File check and downloading</value>
+  </data>
+  <data name="ManifestDownloading" xml:space="preserve">
+    <value>Downloading manifest from remote host</value>
+  </data>
+  <data name="BinaryPatching" xml:space="preserve">
+    <value>Binary patching</value>
+  </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="LauncherVersion" xml:space="preserve">
+    <value>Launcher version: </value>
+  </data>
+  <data name="UnknownVersion" xml:space="preserve">
+    <value>Unknown version</value>
+  </data>
+  <data name="ReleasesPage" xml:space="preserve">
+    <value>(Click to open original releases page, Edit by LemonPAKA)</value>
+  </data>
+  <data name="CloseLauncherWhenUpdating" xml:space="preserve">
+    <value>Game client is being updated. Are you sure you want to cancel updating and close the launcher?</value>
+  </data>
+  <data name="CancelUpdate" xml:space="preserve">
+    <value>Game client is being updated. Are you sure you want to cancel updating and close the launcher?</value>
+  </data>
+  <data name="VerifyGameIntegrityConfirm" xml:space="preserve">
+    <value>Are you sure you want to begin file integrity check and download missing/damaged files?</value>
+  </data>
+  <data name="VerifyGameIntegrityExplain" xml:space="preserve">
+    <value>(This action will take a short time or long time, depending on your disk's speed)</value>
+  </data>
+  <data name="StartGameLocationCheck1" xml:space="preserve">
+    <value>It seems like the configuration has changed.</value>
+  </data>
+  <data name="StartGameLocationCheck2" xml:space="preserve">
+    <value>Do you want to use the path from the configuration file (see below)?</value>
+  </data>
+  <data name="InstallGame" xml:space="preserve">
+    <value>The launcher cannot find your game client. Please choose these options:</value>
+  </data>
+  <data name="InstallGameYes" xml:space="preserve">
+    <value>- Yes: Select a folder to install the game to.</value>
+  </data>
+  <data name="InstallGameNo" xml:space="preserve">
+    <value>- No: Browse for your existing game client.</value>
+  </data>
+  <data name="InstallGameCancel" xml:space="preserve">
+    <value>- Cancel: Abort and go back.</value>
+  </data>
+  <data name="Prompt" xml:space="preserve">
+    <value>Prompt</value>
+  </data>
+  <data name="SelectInstallPath1" xml:space="preserve">
+    <value>Select a folder to install the game to</value>
+  </data>
+  <data name="SelectInstallPath2" xml:space="preserve">
+    <value>The path to the folder you selected is not a local path.</value>
+  </data>
+  <data name="SelectInstallPath3" xml:space="preserve">
+    <value>The path you specified doesn't exist. Create destination folder?</value>
+  </data>
+  <data name="SelectInstallPath4" xml:space="preserve">
+    <value>Detected your game client:</value>
+  </data>
+  <data name="SelectInstallPath5" xml:space="preserve">
+    <value>Do you want to use this path?</value>
+  </data>
+  <data name="SelectInstallPath6" xml:space="preserve">
+    <value>(The path above is not missing anything, it is where the 'manifest.json' file supposed to be)</value>
+  </data>
+  <data name="SelectInstallPath7" xml:space="preserve">
+    <value>Destination to install SnowBreak game client:</value>
+  </data>
+  <data name="SelectInstallPath8" xml:space="preserve">
+    <value>Do you want to install the game to this destination?</value>
+  </data>
+  <data name="OSnotSupport" xml:space="preserve">
+    <value>This action Your OS is not supported. Something went wrong!!!</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="GameAlreadyRunning1" xml:space="preserve">
+    <value>The game is already running</value>
+  </data>
+  <data name="GameAlreadyRunning2" xml:space="preserve">
+    <value>Game already running</value>
+  </data>
+  <data name="GameNeedUpdate" xml:space="preserve">
+    <value>Your game client seems to be out-dated. Do you want to update it now?</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="LetUserKnowGameDirectoryIsNotSetForThisFunction1" xml:space="preserve">
+    <value>It seems you haven't installed the game yet or the launcher doesn't know where it is.</value>
+  </data>
+  <data name="LetUserKnowGameDirectoryIsNotSetForThisFunction2" xml:space="preserve">
+    <value>Please install or select the game data location before performing this action.</value>
+  </data>
+  <data name="LanguageChanged" xml:space="preserve">
+    <value>You need to restart the application manually to change the language.</value>
+  </data>
+  <data name="CheckingGameClientUpdate" xml:space="preserve">
+    <value>Checking for game client updates</value>
+  </data>
+  <data name="UpdateGameClient" xml:space="preserve">
+    <value>Update game client</value>
+  </data>
+  <data name="UpdatingGameClient" xml:space="preserve">
+    <value>Updating game client</value>
+  </data>
+  <data name="StartGame" xml:space="preserve">
+    <value>Start game</value>
+  </data>
+  <data name="StartingGame" xml:space="preserve">
+    <value>Game is starting...</value>
+  </data>
+  <data name="RunningGame" xml:space="preserve">
+    <value>Game is running...</value>
+  </data>
+  <data name="InstallorSelectGameFile" xml:space="preserve">
+    <value>Install or select existing game files</value>
+  </data>
+  <data name="Preparing" xml:space="preserve">
+    <value>Preparing</value>
+  </data>
+  <data name="LoadingLauncherUI" xml:space="preserve">
+    <value>Loading launcher UI...</value>
+  </data>
+</root>

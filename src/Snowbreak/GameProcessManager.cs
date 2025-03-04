@@ -371,6 +371,7 @@ sealed class GameProcessManager : IDisposable
         {
             proc = new Process();
             var argList = proc.StartInfo.ArgumentList;
+            var serverSelected = SnowBreakHttpClient.Instance.ClientServer;
             if (OperatingSystem.IsWindows())
             {
                 proc.StartInfo.FileName = executablePath;
@@ -414,10 +415,21 @@ sealed class GameProcessManager : IDisposable
             else throw new NotSupportedException();
 
             argList.Add("-FeatureLevelES31");
-            argList.Add("-ChannelID=seasun");
-
+            if (serverSelected.Equals("Global"))
+            {
+                argList.Add("-ChannelID=seasun");
+            }
+            else if(serverSelected.Equals("Bilibili"))
+            {
+                argList.Add("-ChannelID=bilibili");
+            }
+            else
+            {
+                argList.Add("-ChannelID=jinshan");
+             }
             ReadOnlySpan<char> buffer = "-userdir=\"";
-            argList.Add(string.Concat(buffer, mgr.FullPathOfGameDirectory, buffer.Slice(buffer.Length - 1)));
+            string saved = "\\" + serverSelected;
+            argList.Add(string.Concat(buffer, mgr.FullPathOfGameDirectory, saved, buffer.Slice(buffer.Length - 1)));
 
             // Argument "-gclid" is optional, it seems.
             bool alreadyHasGclid = false;

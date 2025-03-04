@@ -2,33 +2,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:language="clr-namespace:Leayal.SnowBreakLauncher.I18n"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		MinWidth="250" MinHeight="120" Width="350" Height="120"
+		MinWidth="250" MinHeight="120" Width="350" Height="260"
 		WindowStartupLocation="CenterOwner" CanResize="False"  ExtendClientAreaChromeHints="NoChrome" ExtendClientAreaToDecorationsHint="True"
         x:Class="Leayal.SnowBreakLauncher.LauncherSettings"
-        Title="Launcher Settings">
-	<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
-		<TextBlock TextAlignment="Center" Grid.ColumnSpan="2" Text="Launcher Settings" FontSize="22" Margin="5" />
-
-		<CheckBox Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" x:Name="CheckBox_Networking_UseDoH" ToolTip.Tip="Use secure DNS protocol to resolve domain names into IP addresses (specifically, DNS over HTTPS). Secure DNS server provider is Cloudflare (specifically, 1.1.1.1).">
-			<TextBlock VerticalAlignment="Center" Text="Use secure DNS Resolver (Cloudflare DNS over HTTPS)" ToolTip.Tip="Use secure DNS protocol to resolve domain names into IP addresses (specifically, DNS over HTTPS). Secure DNS server provider is Cloudflare (specifically, 1.1.1.1)." />
+        Title="{x:Static language:Resources.LauncherSettingsTitle}">
+	<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,*,*,*,Auto">
+		<TextBlock TextAlignment="Center" Grid.ColumnSpan="2" Text="{x:Static language:Resources.LauncherSettingsTitle}" FontSize="22" Margin="5" />
+		
+		<CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" x:Name="CheckBox_EnableStreamerMode" ToolTip.Tip="{x:Static language:Resources.EnableStreamerModeToolTip}">
+			<TextBlock VerticalAlignment="Center" Text="{x:Static language:Resources.EnableStreamerMode}" ToolTip.Tip="{x:Static language:Resources.EnableStreamerModeToolTip}" />
 		</CheckBox>
 		
-		<CheckBox Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" x:Name="CheckBox_AllowFetchingManifestFromOfficial" ToolTip.Tip="Allow this launcher to fetch the resource manifest data (this data is used to locate the game client's files) from official launcher. This may result in partial launcher downloads.">
-			<TextBlock VerticalAlignment="Center" Text="Allow fetching manifest data from official launcher" ToolTip.Tip="Allow this launcher to fetch the resource manifest data (this data is used to locate the game client's files) from official launcher. This may result in partial launcher downloads." />
+		<CheckBox Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" x:Name="CheckBox_Networking_UseDoH" ToolTip.Tip="{x:Static language:Resources.UseSecureDNSResolverToolTip}">
+			<TextBlock VerticalAlignment="Center" Text="{x:Static language:Resources.UseSecureDNSResolver}" ToolTip.Tip="{x:Static language:Resources.UseSecureDNSResolverToolTip}" />
 		</CheckBox>
-			
-		<CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" x:Name="CheckBox_AllowFetchingManifestFromOfficialInMemory" ToolTip.Tip="Allow launcher to partially download official launcher into memory instead of into disks.">
-			<TextBlock VerticalAlignment="Center" Text="Allow using memory space instead of disk" ToolTip.Tip="Allow launcher to partially download official launcher into memory instead of into disks." />
+		
+		<CheckBox Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center" x:Name="CheckBox_AllowFetchingManifestFromOfficial" ToolTip.Tip="{x:Static language:Resources.UseManifestFromOfficialLauncherToopTip}">
+			<TextBlock VerticalAlignment="Center" Text="{x:Static language:Resources.UseManifestFromOfficialLauncher}" ToolTip.Tip="{x:Static language:Resources.UseManifestFromOfficialLauncherToopTip}" />
 		</CheckBox>
+		
+		<CheckBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" x:Name="CheckBox_AllowFetchingManifestFromOfficialInMemory" ToolTip.Tip="{x:Static language:Resources.UsingMemoryInsteadOfDiskToolTip}">
+			<TextBlock VerticalAlignment="Center" Text="{x:Static language:Resources.UsingMemoryInsteadOfDisk}" ToolTip.Tip="{x:Static language:Resources.UsingMemoryInsteadOfDiskToolTip}" />
+		</CheckBox>
+		
+		<ComboBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Width="350" x:Name="ComboBox_LanguageSelector" MaxDropDownHeight="70" />
 
-
-		<Grid Grid.Row="4" Grid.ColumnSpan="2" ColumnDefinitions="*,*" RowDefinitions="*">
+		<Grid Grid.Row="6" Grid.ColumnSpan="2" ColumnDefinitions="*,*" RowDefinitions="*">
 			<Button VerticalAlignment="Center" HorizontalAlignment="Center"  Click="SaveBtn_Click">
-				<TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="Save" />
+				<TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="{x:Static language:Resources.Save}" />
 			</Button>
 			<Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="CloseBtn_Click">
-				<TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="Close" />
+				<TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="{x:Static language:Resources.Close}" />
 			</Button>
 		</Grid>
 	</Grid>
