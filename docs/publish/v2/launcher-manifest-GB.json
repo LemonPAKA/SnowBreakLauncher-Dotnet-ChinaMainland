@@ -5,8 +5,11 @@
 		"snowbreak-dl-akm.amazingseasuncdn.com"
 	],
 	"templateURL_RemoteDataResource": "https://{0}/{1}/PC/updates/",
-	"default": "https://{0}/7e1b0308a577c70adc1a7bdef2e8bd60/PC/updates/",
+	"default": "https://{0}/87670a6d6136f355967edfd6175eea25/PC/updates/",
 	"overrides": {
+		"2.6.0": "https://{0}/87670a6d6136f355967edfd6175eea25/PC/updates/",
+		"2.5.0": "https://{0}/06402a2f8c85553c794f9e924638060b/PC/updates/",
+		"2.4.0": "https://{0}/51be8fff827c51d73be4875c62a14a1b/PC/updates/",
 		"2.3.0": "https://{0}/7e1b0308a577c70adc1a7bdef2e8bd60/PC/updates/",
 		"2.2.0": "https://{0}/6d4df694febc8b0ca7afaa4942446d70/PC/updates/",
 		"2.1.0": "https://{0}/7e3b9ed3a0529473c41e8c7d38ecc4f7/PC/updates/",
